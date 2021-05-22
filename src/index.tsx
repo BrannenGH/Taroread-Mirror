@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea } from "@material-ui/core";
 import { spacing } from '@material-ui/system';
-import { ChooseSuit } from './learn/choose-suit/choose-suit'
+import { Learn } from './learn/learn'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Box m={3}>
-        <ChooseSuit></ChooseSuit>
+        <Learn></Learn>
       </Box>
     </div>
   );

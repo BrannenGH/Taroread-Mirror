@@ -1,32 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea } from "@material-ui/core";
-import axios from 'axios';
 
 const apiBase = 'https://api.hallb.me'
 
-const ChooseSuit = () => {
-  const [cards, setCards] = useState([]);
+const ChooseSuit = (props: any) => {
+  // Go through every card, the card with the highest value is the face for that Suit
+  const suitCards = props.cards.reduce((accum: any, current: any) => {
+    var n;
+    switch(current.suit){
+      case "Major": n = 0; break;
+      case "Wands": n = 1; break;
+      case "Cups": n = 2; break;
+      case "Swords": n = 3; break;
+      case "Pentacles": n = 4; break;
+      default: throw Error();
+    }
 
-  useEffect(() => {
-    axios.get(apiBase + '/tarot-cards').then(res => setCards(res.data))
-  }, [])
+    if (accum[n] == null || accum[n].value < current.value) {
+      accum[n] = current
+    }
+
+    return accum;
+  }, [null, null, null, null, null]);
 
     return (
         <div>
           <Typography>Pick Suit</Typography>
-          <Grid>
-            {cards.map((card: any) => (
-              <Grid item xs={3}>
+          <Grid container spacing={2} justify="center" alignItems="center">
+            {suitCards.map((card: any) => (
+              <Grid item lg={2} md={4} xs={6}>
                 <Card>
                   <CardActionArea>
                     <CardContent>
+                      { card?.picture &&
                       <CardMedia
                         component="img"
                         alt=""
-                        image={apiBase + card.picture[0].url}
+                        image={apiBase + card.picture[0]?.url}
                         title={card.name}
                         />
-                      <Typography>{card.suit}</Typography>
+                      }
+                      {card?.suit && <Typography>{card.suit}</Typography>}
                     </CardContent>
                   </CardActionArea>
                 </Card>
