@@ -13,7 +13,7 @@ const apiBase = 'https://api.hallb.me'
 
 const CardDescription = (props: any) => {
     let {suit, name} = useParams() as any;
-    const card = props.allCards.find((card: any) => card.name === decodeURIComponent(name));
+    const card = props.allCards.find((card: any) => card.name.toLowerCase() === decodeURIComponent(name).toLowerCase());
     
     return (
         <Grid container spacing={2} justify="center" alignItems="center">

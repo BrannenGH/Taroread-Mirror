@@ -13,7 +13,7 @@ const apiBase = 'https://api.hallb.me'
 
 const ChooseCard = (props: any) => {
   let {suit} = useParams() as any;
-  let cards = props.allCards.filter(((card: any) => card.suit === decodeURIComponent(suit)))
+  let cards = props.allCards.filter(((card: any) => card.suit.toLowerCase() === decodeURIComponent(suit).toLowerCase()))
 
  return (
     <div>
@@ -22,7 +22,7 @@ const ChooseCard = (props: any) => {
       {cards?.map((card: any) => (
         <Grid item lg={2} md={4} xs={6}>
           <Link
-            to={`${encodeURIComponent(card.suit)}/${encodeURIComponent(card.name)}`}>
+            to={`${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`}>
           <Card>
             <CardActionArea>
               <CardContent>
