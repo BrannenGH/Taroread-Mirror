@@ -1,17 +1,29 @@
 import React from 'react';
 import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea } from "@material-ui/core";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
 const apiBase = 'https://api.hallb.me'
 
 const ChooseCard = (props: any) => {
+  let {suit} = useParams() as any;
+  let cards = props.allCards.filter(((card: any) => card.suit === decodeURIComponent(suit)))
+
  return (
     <div>
     <Typography>Pick Card</Typography>
     <Grid container spacing={2} justify="center" alignItems="center">
-      {props.cards?.map((card: any) => (
+      {cards?.map((card: any) => (
         <Grid item lg={2} md={4} xs={6}>
-          <Card
-            onClick={() => {props.onSelection(card)}}>
+          <Link
+            to={`${encodeURIComponent(card.suit)}/${encodeURIComponent(card.name)}`}>
+          <Card>
             <CardActionArea>
               <CardContent>
                 { card?.picture &&
@@ -26,6 +38,7 @@ const ChooseCard = (props: any) => {
               </CardContent>
             </CardActionArea>
           </Card>
+          </Link>
         </Grid>
       ))}
     </Grid>

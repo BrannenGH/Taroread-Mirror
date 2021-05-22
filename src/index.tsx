@@ -6,21 +6,29 @@ import axios from 'axios';
 import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea } from "@material-ui/core";
 import { spacing } from '@material-ui/system';
 import { Learn } from './learn/learn'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <img src={Logo} alt="Taroread" className="logo"></img> 
-          <Typography>Taroread</Typography>
-          <Typography>Learn</Typography>
-        </Toolbar>
-      </AppBar>
-      <Box m={3}>
-        <Learn></Learn>
-      </Box>
-    </div>
+    <Router>
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            <img src={Logo} alt="Taroread" className="logo"></img> 
+            <Typography>Taroread</Typography>
+            <Typography>Learn</Typography>
+          </Toolbar>
+        </AppBar>
+        <Box m={3}>
+          <Learn></Learn>
+        </Box>
+      </div>
+    </Router>
   );
 }
 

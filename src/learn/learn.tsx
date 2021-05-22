@@ -3,36 +3,46 @@ import { ChooseSuit } from './choose-suit/choose-suit';
 import axios from 'axios';
 import { ChooseCard } from './choose-card/choose-card';
 import { CardDescription } from './card-description/card-description';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
 const apiBase = 'https://api.hallb.me'
 
 const Learn = () => {
   const [allCards, setAllCards] = useState<any[]>([]);
   const [cards, setCards] = useState<any[]>([]);
+  let test = useParams() as any;
+
+  debugger;
 
   useEffect(() => {
     axios.get(apiBase + '/tarot-cards').then(res => setAllCards(res.data))
   }, [])
 
-  if (cards && cards.length > 1) {
-    return (
-      <ChooseCard
-        cards={cards}
-        onSelection={(card: any) => setCards([card])}>
-      </ChooseCard>
-    )
-  } else if (cards && cards.length == 1) {
-    return (
-      <CardDescription card={cards[0]}></CardDescription>
-    )
-  } else {
-    return (
-      <ChooseSuit 
-          cards={allCards}
-          onSelection={(suit: string) => setCards(allCards.filter((card: any) => card.suit == suit)) }
-      ></ChooseSuit>
-    )
-  }
+  return (
+    <Switch>
+      <Route exact path={`/:suit/:name`}>
+        <CardDescription 
+          allCards={allCards}></CardDescription>
+      </Route>
+      <Route exact path={`/:suit`}>
+        <ChooseCard
+          allCards={allCards}>
+        </ChooseCard>
+      </Route>
+      <Route exact path={`/`}>
+        <ChooseSuit 
+            cards={allCards}>
+        </ChooseSuit>
+      </Route>
+    </Switch>
+  )
 }
 
 export { Learn }
