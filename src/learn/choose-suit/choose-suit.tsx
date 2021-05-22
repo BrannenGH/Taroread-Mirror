@@ -27,9 +27,10 @@ const ChooseSuit = (props: any) => {
         <div>
           <Typography>Pick Suit</Typography>
           <Grid container spacing={2} justify="center" alignItems="center">
-            {suitCards.map((card: any) => (
+            {suitCards.filter((card:any) => card != null).map((card: any) => (
               <Grid item lg={2} md={4} xs={6}>
-                <Card>
+                <Card
+                  onClick={() => {props.onSelection(card.suit)}}>
                   <CardActionArea>
                     <CardContent>
                       { card?.picture &&
