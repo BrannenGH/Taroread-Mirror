@@ -10,7 +10,8 @@ const ChooseCard = (props: any) => {
     <Grid container spacing={2} justify="center" alignItems="center">
       {props.cards?.map((card: any) => (
         <Grid item lg={2} md={4} xs={6}>
-          <Card>
+          <Card
+            onClick={() => {props.onSelection(card)}}>
             <CardActionArea>
               <CardContent>
                 { card?.picture &&
