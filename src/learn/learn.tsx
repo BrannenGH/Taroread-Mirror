@@ -16,13 +16,10 @@ const apiBase = 'https://api.hallb.me'
 
 const Learn = () => {
   const [allCards, setAllCards] = useState<any[]>([]);
-  const [cards, setCards] = useState<any[]>([]);
-  let test = useParams() as any;
-
-  debugger;
+;
 
   useEffect(() => {
-    axios.get(apiBase + '/tarot-cards').then(res => setAllCards(res.data))
+    axios.get(apiBase + '/tarot-cards').then(res => setAllCards(res.data.sort(function(a:any, b:any){return a.value - b.value})))
   }, [])
 
   return (
