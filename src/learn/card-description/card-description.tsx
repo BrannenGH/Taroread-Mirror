@@ -30,11 +30,13 @@ const CardDescription = (props: any) => {
                     src={apiBase + card.picture[0]?.url}
                     />
                 }
+                <Typography>Astrological Sign: {card?.astrologicalSign}</Typography>
+                <Typography>Planet: {card?.planet}</Typography>
             </Grid>
             <Grid item md={8} xs={12}>
                 <Grid container
                     direction="row">
-                    {card?.keywords.split(" ").map((keyword: string) => (
+                    {card?.keywords.split(/, /g).map((keyword: string) => (
                         <Box borderRadius={16} p={0.5}>
                             <Paper>
                                 <Box m={2}>
