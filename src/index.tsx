@@ -37,9 +37,7 @@ function App() {
             <Typography>Learn</Typography>
           </Toolbar>
         </AppBar>
-        <Box m={3}>
-          <Learn></Learn>
-        </Box>
+        <Learn></Learn>
       </Router>
     </ThemeProvider>
   );

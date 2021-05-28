@@ -16,23 +16,40 @@ const CardDescription = (props: any) => {
     const card = props.allCards.find((card: any) => card.name.toLowerCase() === decodeURIComponent(name).toLowerCase());
     
     return (
-        <Grid container spacing={2} justify="center" alignItems="center">
+        <div>
+        <Paper>
+            <Box m={3}>
+                <Typography>{card?.name}</Typography>
+            </Box>
+        </Paper>
+        <Grid container spacing={2} justify="center">
             <Grid item md={4} xs={12}>
-                <Paper>
-                    { card?.picture &&
-                        <img
-                        alt=""
-                        src={apiBase + card.picture[0]?.url}
-                        />
-                    }
-                </Paper>
+                { card?.picture &&
+                    <img
+                    alt=""
+                    src={apiBase + card.picture[0]?.url}
+                    />
+                }
             </Grid>
             <Grid item md={8} xs={12}>
-                <Typography>{card.name}</Typography>
-                <Typography>{card.keywords}</Typography>
-                <Typography>{card.description}</Typography>
+                <Grid container
+                    direction="row">
+                    {card?.keywords.split(" ").map((keyword: string) => (
+                        <Box borderRadius={16} p={0.5}>
+                            <Paper>
+                                <Box m={2}>
+                                    <Typography>
+                                        {keyword}
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                        </Box>
+                    ))}
+                </Grid>
+                <Typography>{card?.description}</Typography>
             </Grid>
         </Grid>
+        </div>
     )
 }
 
