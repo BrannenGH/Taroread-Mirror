@@ -13,6 +13,7 @@ import {
   Link
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core/styles';
+import { Navigation } from './shared/navigation/navigation';
 
 function App() {
   const taroreadTheme = createMuiTheme({
@@ -32,9 +33,22 @@ function App() {
       <Router>
         <AppBar position="static">
           <Toolbar>
-            <img src={Logo} alt="Taroread" className="logo"></img> 
-            <Typography>Taroread</Typography>
-            <Typography>Learn</Typography>
+            <Navigation
+              branding={(
+                <Grid container
+                  direction="row"
+                  alignItems="center">
+                  <img src={Logo} alt="Taroread" className="logo"></img> 
+                  <Typography variant="h3">Taroread</Typography>
+                </Grid>
+              )}>
+              <Link to="/learn">
+                <Typography>Learn</Typography>
+              </Link>
+              <Link to="/journal">
+                <Typography>Journal</Typography>
+              </Link>
+            </Navigation>
           </Toolbar>
         </AppBar>
         <Learn></Learn>
