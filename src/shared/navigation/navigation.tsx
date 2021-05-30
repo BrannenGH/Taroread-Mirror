@@ -3,7 +3,7 @@ import Logo from './logo.svg';
 import './navigation.css';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea, ThemeProvider, Hidden } from "@material-ui/core";
+import {AppBar, Toolbar, Card, Typography, CardContent, Container, Grid, Box, CardMedia, CardActionArea, ThemeProvider, Hidden, BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import { Menu } from '@material-ui/icons';
 import { spacing } from '@material-ui/system';
 import {
@@ -15,15 +15,11 @@ import {
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const Navigation = (props: any) => {
+
     return (
         <Grid container
             direction="row"
             alignItems="center">
-            <Grid item>
-                <Hidden mdUp={true}>
-                    <Menu />
-                </Hidden>
-            </Grid>
             <Grid item>
                 {props.branding}
             </Grid>
@@ -31,7 +27,7 @@ const Navigation = (props: any) => {
                 <Hidden smDown={true}>
                     <nav>
                         <ol className="navigation">
-                            {props.children}
+                                {props.children}
                         </ol>
                     </nav>
                 </Hidden>

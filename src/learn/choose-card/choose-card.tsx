@@ -22,7 +22,7 @@ const ChooseCard = (props: any) => {
       {cards?.map((card: any) => (
         <Grid item lg={2} md={4} xs={6}>
           <Link
-            to={`${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`}>
+            to={`/learn/${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`}>
           <Card>
             <CardActionArea>
               <CardContent>

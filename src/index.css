@@ -17,3 +17,15 @@ code {
   max-width: 10vw;
   margin: 10px;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:active {
+  color: inherit;
+}
+
+a:visited {
+  color: inherit;
+}

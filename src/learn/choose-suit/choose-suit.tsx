@@ -38,7 +38,7 @@ const ChooseSuit = (props: any) => {
             {suitCards.filter((card:any) => card != null).map((card: any) => (
               <Grid item lg={2} md={4} xs={6}>
                 <Link
-                  to={`${encodeURIComponent(card.suit.toLowerCase())}`}>
+                  to={`/learn/${encodeURIComponent(card.suit.toLowerCase())}`}>
                 <Card>
                   <CardActionArea>
                     <CardContent>

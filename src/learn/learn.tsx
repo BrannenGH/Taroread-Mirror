@@ -24,16 +24,16 @@ const Learn = () => {
 
   return (
     <Switch>
-      <Route exact path={`/:suit/:name`}>
+      <Route exact path={`/learn/:suit/:name`}>
         <CardDescription 
           allCards={allCards}></CardDescription>
       </Route>
-      <Route exact path={`/:suit`}>
+      <Route exact path={`/learn/:suit`}>
         <ChooseCard
           allCards={allCards}>
         </ChooseCard>
       </Route>
-      <Route exact path={`/`}>
+      <Route exact path={`/learn`}>
         <ChooseSuit 
             cards={allCards}>
         </ChooseSuit>
