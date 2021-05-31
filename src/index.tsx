@@ -16,6 +16,10 @@ import {
 import { Home } from './home/home';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { Navigation } from './shared/navigation/navigation';
+import firebase from 'firebase/app';
+import firebaseConfig from './firebase-config.json';
+import { Journal } from './journal/journal';
+
 
 function App() {
   const [value, setValue] = React.useState(0);
@@ -31,7 +35,8 @@ function App() {
       }
     }
   })
-
+  
+  const firebaseApp = firebase.initializeApp(firebaseConfig);
 
   return (
     <ThemeProvider theme={taroreadTheme}>
@@ -63,7 +68,7 @@ function App() {
             <Learn />
           </Route>
           <Route exact path={`/journal`}>
-            <Typography>In progress</Typography>
+            <Journal></Journal>
           </Route>
           <Route path={`/`}>
             <Home />
