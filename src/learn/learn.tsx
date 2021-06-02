@@ -11,11 +11,12 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+import { TarotCardMetadata } from '../shared/tarot-cards/tarot-card-metadata';
 
 const apiBase = 'https://api.hallb.me'
 
 const Learn = () => {
-  const [allCards, setAllCards] = useState<any[]>([]);
+  const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
 ;
 
   useEffect(() => {

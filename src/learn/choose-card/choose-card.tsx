@@ -8,6 +8,7 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+import { TarotCard } from '../../shared/tarot-cards/tarot-card';
 
 const apiBase = 'https://api.hallb.me'
 
@@ -23,21 +24,7 @@ const ChooseCard = (props: any) => {
         <Grid item lg={2} md={4} xs={6}>
           <Link
             to={`/learn/${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`}>
-          <Card>
-            <CardActionArea>
-              <CardContent>
-                { card?.picture &&
-                <CardMedia
-                  component="img"
-                  alt=""
-                  image={apiBase + card.picture[0]?.url}
-                  title={card.name}
-                  />
-                }
-                {card?.suit && <Typography>{card.name}</Typography>}
-              </CardContent>
-            </CardActionArea>
-          </Card>
+              <TarotCard card={card} />
           </Link>
         </Grid>
       ))}

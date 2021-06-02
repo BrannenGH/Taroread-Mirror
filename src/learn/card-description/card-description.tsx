@@ -8,6 +8,7 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+import { TarotCard } from '../../shared/tarot-cards/tarot-card';
 
 const apiBase = 'https://api.hallb.me'
 
@@ -24,14 +25,7 @@ const CardDescription = (props: any) => {
         </Paper>
         <Grid container spacing={2} justify="center">
             <Grid item md={4} xs={12}>
-                { card?.picture &&
-                    <img
-                    alt=""
-                    src={apiBase + card.picture[0]?.url}
-                    />
-                }
-                <Typography>Astrological Sign: {card?.astrologicalSign}</Typography>
-                <Typography>Planet: {card?.planet}</Typography>
+                <TarotCard card={card} showMetadata={true}></TarotCard>
             </Grid>
             <Grid item md={8} xs={12}>
                 <Grid container
