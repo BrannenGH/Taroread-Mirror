@@ -12,15 +12,15 @@ import {
   useParams
 } from "react-router-dom";
 import { TarotCardMetadata } from '../shared/tarot-cards/tarot-card-metadata';
-
-const apiBase = 'https://api.hallb.me'
+import { getTarotMetadata } from '../shared/tarot-cards/tarot-card-service';
 
 const Learn = () => {
   const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
-;
 
   useEffect(() => {
-    axios.get(apiBase + '/tarot-cards').then(res => setAllCards(res.data.sort(function(a:any, b:any){return a.value - b.value})))
+    getTarotMetadata().then(res =>
+      setAllCards(res)
+    )
   }, [])
 
   return (

@@ -9,8 +9,7 @@ import {
   useParams
 } from "react-router-dom";
 import { TarotCardMetadata } from './tarot-card-metadata';
-
-const apiBase = 'https://api.hallb.me';
+import { buildImageUrl } from './tarot-card-service';
 
 const TarotCard = (props: any) => {
     const card = props.card as TarotCardMetadata
@@ -21,7 +20,7 @@ const TarotCard = (props: any) => {
                 <CardMedia
                 component="img"
                 alt={card?.picture[0]?.alternativeText}
-                image={apiBase + card?.picture[0]?.url}
+                image={buildImageUrl(card?.picture[0])}
                 title={card?.name}
                 />
             }

@@ -20,7 +20,7 @@ interface PictureMetadata {
   caption: string,
   width: number,
   height: number,
-  url: "/uploads/Major_Magician_09c3d5b3f9.jpg",
+  url: string,
   created_at: Date,
   updated_at: Date
 }
