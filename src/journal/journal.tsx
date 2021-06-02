@@ -13,10 +13,11 @@ import {
 const Journal = (props: any) => {
     return (
         <Switch>
-            <Route exact path={`/learn/:entryId`}>
+            <Route exact path={`/journal/:entryId`}>
             </Route>
             <Route exact path={`/journal`}>
-               <JournalList></JournalList> 
+               <JournalList
+                    allCards={props.allCards} />
             </Route>
         </Switch> 
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Logo from './logo.svg';
 import './index.css';
 import ReactDOM from 'react-dom';
@@ -19,12 +19,33 @@ import { Navigation } from './shared/navigation/navigation';
 import firebase from 'firebase/app';
 import firebaseConfig from './firebase-config.json';
 import { Journal } from './journal/journal';
-
+import { TarotCardMetadata } from './shared/tarot-cards/tarot-card-metadata';
+import { getTarotMetadata } from './shared/tarot-cards/tarot-card-service';
 
 function App() {
-  const [value, setValue] = React.useState(0);
+  // Initialize Firebase.
+  const firebaseApp = (function() {
+    if (!firebase.apps.length) {
+      return firebase.initializeApp(firebaseConfig);
+    } else {
+      return firebase.app();
+    }
+  })();
+
+  const [bottomNavigationLocation, setBottomNavigationLocation] = React.useState(0);
   const [history, _] = React.useState(useHistory());
 
+  // Bootstrap the application by pulling all the TaroCardMetadata.
+  const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
+
+  useEffect(() => {
+    // Load TaroCardMetadata on load.
+    getTarotMetadata().then(res =>
+      setAllCards(res)
+    )
+  }, [])
+
+  // Set up Taroread theme.
   const taroreadTheme = createMuiTheme({
     palette: {
       primary: {
@@ -36,7 +57,6 @@ function App() {
     }
   })
   
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
 
   return (
     <ThemeProvider theme={taroreadTheme}>
@@ -44,20 +64,19 @@ function App() {
           <Toolbar>
             <Navigation
               branding={(
-                <Link to="/" style={{ textDecoration: 'none' }}>
+                <Link to="/">
                   <Grid container
                     direction="row"
                     alignItems="center">
-
                       <img src={Logo} alt="Taroread" className="logo"></img> 
                       <Typography variant="h3">Taroread</Typography>
                   </Grid>
                 </Link>
               )}>
-                <Link to="/learn" style={{ textDecoration: 'none' }}>
+                <Link to="/learn">
                   <Typography>Learn</Typography>
                 </Link>
-                <Link to="/journal" style={{ textDecoration: 'none' }}>
+                <Link to="/journal">
                   <Typography>Journal</Typography>
                 </Link>
             </Navigation>
@@ -65,10 +84,12 @@ function App() {
         </AppBar>
         <Switch>
           <Route path={`/learn`}>
-            <Learn />
+            <Learn 
+              allCards={allCards} />
           </Route>
           <Route exact path={`/journal`}>
-            <Journal></Journal>
+            <Journal 
+              allCards={allCards} />
           </Route>
           <Route path={`/`}>
             <Home />
@@ -76,7 +97,7 @@ function App() {
         </Switch>
         <Hidden mdUp={true}>
             <BottomNavigation
-                value={value}
+                value={bottomNavigationLocation}
                 onChange={(event: any, newValue: any) => {
                     switch(newValue){
                       case 0:
@@ -86,7 +107,7 @@ function App() {
                         history.push('/journal');
                         break;
                     }
-                    setValue(newValue);
+                    setBottomNavigationLocation(newValue);
                 }}
                 showLabels
             >

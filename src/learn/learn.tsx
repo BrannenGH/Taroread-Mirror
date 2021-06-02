@@ -14,29 +14,22 @@ import {
 import { TarotCardMetadata } from '../shared/tarot-cards/tarot-card-metadata';
 import { getTarotMetadata } from '../shared/tarot-cards/tarot-card-service';
 
-const Learn = () => {
-  const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
-
-  useEffect(() => {
-    getTarotMetadata().then(res =>
-      setAllCards(res)
-    )
-  }, [])
+const Learn = (props: any) => {
 
   return (
     <Switch>
       <Route exact path={`/learn/:suit/:name`}>
         <CardDescription 
-          allCards={allCards}></CardDescription>
+          allCards={props.allCards}></CardDescription>
       </Route>
       <Route exact path={`/learn/:suit`}>
         <ChooseCard
-          allCards={allCards}>
+          allCards={props.allCards}>
         </ChooseCard>
       </Route>
       <Route exact path={`/learn`}>
         <ChooseSuit 
-            cards={allCards}>
+            cards={props.allCards}>
         </ChooseSuit>
       </Route>
     </Switch>

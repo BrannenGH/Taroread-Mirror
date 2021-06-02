@@ -19,12 +19,14 @@ const TarotCard = (props: any) => {
             { card?.picture &&
                 <CardMedia
                 component="img"
-                alt={card?.picture[0]?.alternativeText}
+                alt={card?.picture[0]?.alternativeText && card?.name}
                 image={buildImageUrl(card?.picture[0])}
                 title={card?.name}
                 />
             }
-            <Typography>{card?.name}</Typography>
+            {
+                props.showName && <Typography>{card?.name}</Typography>
+            }
             {
                 props.showMetadata && <Typography>Astrological Sign: {card?.astrologicalSign}</Typography>
             }
