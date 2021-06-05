@@ -16,30 +16,10 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
+import { AccountDrawer } from '../account-drawer/account-drawer';
 
 const Navigation = (props: any) => {
     const [userProfileVisible, setUserProfileVisible] = React.useState(false);
-
-    // FirebaseUI config.
-    var uiConfig = {
-        signInSuccessUrl: 'https://hallb.me/',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ],
-        // tosUrl and privacyPolicyUrl accept either url string or a callback
-        // function.
-        // Terms of service url/callback.
-        tosUrl: 'https://tarotantula.com/',
-        // Privacy policy url/callback.
-        privacyPolicyUrl: function() {
-            window.location.assign('https://tarotantula.com/');
-        }
-    };
-
-    var ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-
 
     return (
         <Grid container
@@ -63,16 +43,10 @@ const Navigation = (props: any) => {
                 <AccountCircle
                     onClick={() => setUserProfileVisible(true)}></AccountCircle>
             </Grid>
-            <Drawer anchor="right" open={userProfileVisible} onClose={() => setUserProfileVisible(false)}>
-                <Typography>
-                    <Grid>
-                        <Grid item>
-                            <AccountCircle
-                                onClick={() => {setUserProfileVisible(true); ui.start('#auth', uiConfig);}}></AccountCircle>
-                            <div id="auth"></div>
-                        </Grid>
-                    </Grid>
-                </Typography>
+            <Drawer anchor="right" open={userProfileVisible} 
+                onClose={() => setUserProfileVisible(false)}>
+                <AccountDrawer
+                    onCloseDrawer={() => setUserProfileVisible(false)}/>
             </Drawer>
         </Grid>
     );
