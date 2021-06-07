@@ -92,7 +92,7 @@ function App() {
             <Learn 
               allCards={allCards} />
           </Route>
-          <Route exact path={`/journal`}>
+          <Route path={`/journal`}>
             <Journal 
               allCards={allCards} 
               user={user} />

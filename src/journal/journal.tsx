@@ -35,18 +35,18 @@ const Journal = (props: any) => {
 
     return (
         <Switch>
-            <Route exact path={`/journal/:uid/:id`}>
-                <JournalEdit
-                    allCards={props.allCards}
-                    allJournals={journals} 
-                    onModify={onModify} />
-            </Route>
             <Route exact path={`/journal`}>
                 <JournalList
                     allCards={props.allCards} 
                     allJournals={journals}
                     user={props?.user} 
                     onModify={onModify}/>
+            </Route>
+            <Route path={`/journal/:uid/:id`}>
+                <JournalEdit
+                    allCards={props.allCards}
+                    allJournals={journals} 
+                    onModify={onModify} />
             </Route>
         </Switch> 
     )
