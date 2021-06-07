@@ -25,7 +25,7 @@ const JournalList = (props: any) => {
           </Grid>
           <Grid item>
             {props.allJournals.map((journal: JournalEntry, index: number) => (
-              <Link to={`/journal/${(props?.user as firebase.User)?.uid}/${index}`}>
+              <Link to={`/journal/edit?user=${(props?.user as firebase.User)?.uid}&id=${index}`}>
                 <JournalListItem
                   allCards={props.allCards} 
                   journal={journal} />

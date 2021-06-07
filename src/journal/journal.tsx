@@ -42,7 +42,7 @@ const Journal = (props: any) => {
                     user={props?.user} 
                     onModify={onModify}/>
             </Route>
-            <Route path={`/journal/:uid/:id`}>
+            <Route path={`/journal/edit`}>
                 <JournalEdit
                     allCards={props.allCards}
                     allJournals={journals} 

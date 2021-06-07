@@ -6,7 +6,8 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  useLocation
 } from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
 import { getTarotMetadata } from '../../shared/tarot-cards/tarot-card-service';
@@ -17,8 +18,8 @@ import { Formik } from 'formik';
 import { Description } from '@material-ui/icons';
 
 const JournalEdit = (props: any) => {
-    let {uid, id} = useParams() as any;
-    const journal = props.allJournals[Number.parseInt(decodeURIComponent(id), 10)];
+    let query = new URLSearchParams(useLocation().search);
+    const journal = props.allJournals[Number.parseInt(decodeURIComponent(query.get("id") ?? ""), 10)];
 
     return (
         <Formik
