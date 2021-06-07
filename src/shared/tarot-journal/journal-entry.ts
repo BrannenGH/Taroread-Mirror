@@ -2,6 +2,7 @@ interface JournalEntry {
     title: string;
     date: Date;
     cards: number[];
+    description: string;
 }
 
 const constructJournalEntry = () => {

@@ -14,7 +14,9 @@ import { TarotCardMetadata } from '../../shared/tarot-cards/tarot-card-metadata'
 
 const TarotCardEdit = (props: any) => {
     return (
-        <Typography>To be implemented</Typography>
+      <TarotCard
+        card={props.allCards.find((card: any) => card.value === props.value)}>
+      </TarotCard>
     )
 }
 
