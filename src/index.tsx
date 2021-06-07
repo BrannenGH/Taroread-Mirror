@@ -34,6 +34,7 @@ function App() {
 
   const [bottomNavigationLocation, setBottomNavigationLocation] = React.useState(0);
   const [history, _] = React.useState(useHistory());
+  const [user, setUser] = React.useState<firebase.User | null>(null);
 
   // Bootstrap the application by pulling all the TaroCardMetadata.
   const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
@@ -56,7 +57,10 @@ function App() {
       }
     }
   })
-  
+
+  firebase.auth().onAuthStateChanged((user) => {
+    setUser(user);
+  });
 
   return (
     <ThemeProvider theme={taroreadTheme}>
@@ -72,7 +76,8 @@ function App() {
                       <Typography variant="h3">Taroread</Typography>
                   </Grid>
                 </Link>
-              )}>
+              )}
+                user={user}>
                 <Link to="/learn">
                   <Typography>Learn</Typography>
                 </Link>
@@ -89,7 +94,8 @@ function App() {
           </Route>
           <Route exact path={`/journal`}>
             <Journal 
-              allCards={allCards} />
+              allCards={allCards} 
+              user={user} />
           </Route>
           <Route path={`/`}>
             <Home />

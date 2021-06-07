@@ -13,12 +13,13 @@ import {
   Link
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core/styles';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
 const AccountDrawer = (props: any) => {
-    const [user, setUser] = React.useState<firebase.User | null>(null);
+    // TEMPORARY: User state should only exist at the root.
+    const [user, setUser] =  React.useState<firebase.User | null>(props.user);
 
     // FirebaseUI config.
     var uiConfig = {

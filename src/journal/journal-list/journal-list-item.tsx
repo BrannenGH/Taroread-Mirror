@@ -17,20 +17,24 @@ const JournalListItem = (props: any) => {
     const allCards = props.allCards as TarotCardMetadata[];
 
     return (
-      <Card>
-        <Typography>{journal?.title}</Typography>
-        <Typography>{journal?.date}</Typography>
-        <Grid container spacing={2} alignItems="flex-end">
-          {
-            journal?.cards.map(value => (
-              <Grid item lg={2} md={4} xs={6}>
-                <TarotCard
-                  card={allCards.find(card => card.value == value)} />
-              </Grid>
-            ))
-          }
-        </Grid>
-      </Card>
+      <Box m={3}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography>{journal?.title}</Typography>
+            <Typography>{journal?.date}</Typography>
+            <Grid container spacing={2} alignItems="flex-end">
+              {
+                journal?.cards?.map(value => (
+                  <Grid item lg={1} md={2} xs={6}>
+                    <TarotCard
+                      card={allCards.find(card => card.value == value)} />
+                  </Grid>
+                ))
+              }
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
     )
 }
 
