@@ -9,12 +9,14 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  useHistory
 } from "react-router-dom";
 import { TarotCardMetadata } from '../shared/tarot-cards/tarot-card-metadata';
 import { getTarotMetadata } from '../shared/tarot-cards/tarot-card-service';
 
 const Learn = (props: any) => {
+  const history = useHistory();
 
   return (
     <Switch>
@@ -24,13 +26,13 @@ const Learn = (props: any) => {
       </Route>
       <Route exact path={`/learn/:suit`}>
         <ChooseCard
-          allCards={props.allCards}>
-        </ChooseCard>
+          allCards={props.allCards}
+          onSelection={(card: TarotCardMetadata) => history.push(`/learn/${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`)}/>
       </Route>
       <Route exact path={`/learn`}>
         <ChooseSuit 
-            cards={props.allCards}>
-        </ChooseSuit>
+            cards={props.allCards}
+            onSelection={(suit: string) => history.push(`/learn/${encodeURIComponent(suit.toLowerCase())}`)}/>
       </Route>
     </Switch>
   )

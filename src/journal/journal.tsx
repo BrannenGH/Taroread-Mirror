@@ -28,9 +28,10 @@ const Journal = (props: any) => {
     const onModify = (journals: JournalEntry[]) => {
         // TODO: If journals have an ID of null, create them in firebase.
         firebase.database().ref(`journals/${(props?.user as firebase.User).uid}`).set(journals);
-        firebase.database().ref(`journals/${(props?.user as firebase.User)?.uid}`).get().then(res => {
+        setJournals(journals);
+        /*firebase.database().ref(`journals/${(props?.user as firebase.User)?.uid}`).get().then(res => {
             setJournals(res.val() ?? []);
-        });
+        });*/
     }
 
     return (

@@ -13,7 +13,7 @@ import { TarotCard } from '../../shared/tarot-cards/tarot-card';
 const apiBase = 'https://api.hallb.me'
 
 const ChooseCard = (props: any) => {
-  let {suit} = useParams() as any;
+  let suit = (useParams() as any)?.suit ?? props.suit;
   let cards = props.allCards.filter(((card: any) => card.suit.toLowerCase() === decodeURIComponent(suit).toLowerCase()))
 
  return (
@@ -21,11 +21,9 @@ const ChooseCard = (props: any) => {
     <Typography>Pick Card</Typography>
     <Grid container spacing={2} justify="center" alignItems="center">
       {cards?.map((card: any) => (
-        <Grid item lg={2} md={4} xs={6}>
-          <Link
-            to={`/learn/${encodeURIComponent(card.suit.toLowerCase())}/${encodeURIComponent(card.name.toLowerCase())}`}>
-              <TarotCard card={card} />
-          </Link>
+        <Grid item lg={2} md={4} xs={6}
+          onClick={() => props.onSelection(card)}>
+          <TarotCard card={card} />
         </Grid>
       ))}
     </Grid>

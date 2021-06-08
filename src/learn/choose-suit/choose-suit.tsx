@@ -37,11 +37,9 @@ const ChooseSuit = (props: any) => {
           <Typography>Pick Suit</Typography>
           <Grid container spacing={2} justify="center" alignItems="center">
             {suitCards.filter((card:any) => card != null).map((card: any) => (
-              <Grid item lg={2} md={4} xs={6}>
-                <Link
-                  to={`/learn/${encodeURIComponent(card.suit.toLowerCase())}`}>
-                    <TarotCard card={card} />
-                </Link>
+              <Grid item lg={2} md={4} xs={6}
+                onClick={() => props.onSelection(card.suit)}>
+                <TarotCard card={card} />
               </Grid>
             ))}
           </Grid>
