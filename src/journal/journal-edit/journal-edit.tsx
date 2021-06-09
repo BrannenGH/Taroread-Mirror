@@ -65,7 +65,7 @@ const JournalEdit = (props: any) => {
                                     render={arrayHelpers => (
                                         <Grid container>
                                         {
-                                            values.cards.map((card: any, i: number) => (
+                                            values?.cards?.map((card: any, i: number) => (
                                                 <Grid item md={1}>
                                                     <TarotCardField
                                                         name={`cards.${i}`}
@@ -78,7 +78,7 @@ const JournalEdit = (props: any) => {
                                         }
                                             <Grid item md={1}>
                                                 <Add
-                                                    onClick={() => arrayHelpers.insert(values.cards.length, 1)} />
+                                                    onClick={() => arrayHelpers.insert(values?.cards?.length ?? 0, 1)} />
                                             </Grid>
                                         </Grid>
                                     )}/>
