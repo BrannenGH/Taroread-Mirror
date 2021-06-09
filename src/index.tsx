@@ -15,12 +15,12 @@ import {
 } from "react-router-dom";
 import { Home } from './home/home';
 import { createMuiTheme } from '@material-ui/core/styles';
-import { Navigation } from './shared/navigation/navigation';
 import firebase from 'firebase/app';
 import firebaseConfig from './firebase-config.json';
 import { Journal } from './journal/journal';
 import { TarotCardMetadata } from './shared/tarot-cards/tarot-card-metadata';
 import { getTarotMetadata } from './shared/tarot-cards/tarot-card-service';
+import { PageContainer } from './shared/page-container/page-container';
 
 function App() {
   // Initialize Firebase.
@@ -32,8 +32,6 @@ function App() {
     }
   })();
 
-  const [bottomNavigationLocation, setBottomNavigationLocation] = React.useState(0);
-  const [history, _] = React.useState(useHistory());
   const [user, setUser] = React.useState<firebase.User | null>(null);
 
   // Bootstrap the application by pulling all the TaroCardMetadata.
@@ -64,29 +62,8 @@ function App() {
 
   return (
     <ThemeProvider theme={taroreadTheme}>
-        <AppBar position="static">
-          <Toolbar>
-            <Navigation
-              branding={(
-                <Link to="/">
-                  <Grid container
-                    direction="row"
-                    alignItems="center">
-                      <img src={Logo} alt="Taroread" className="logo"></img> 
-                      <Typography variant="h3">Taroread</Typography>
-                  </Grid>
-                </Link>
-              )}
-                user={user}>
-                <Link to="/learn">
-                  <Typography>Learn</Typography>
-                </Link>
-                <Link to="/journal">
-                  <Typography>Journal</Typography>
-                </Link>
-            </Navigation>
-          </Toolbar>
-        </AppBar>
+      <PageContainer
+        user={user}>
         <Switch>
           <Route path={`/learn`}>
             <Learn 
@@ -101,26 +78,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
-        <Hidden mdUp={true}>
-            <BottomNavigation
-                value={bottomNavigationLocation}
-                onChange={(event: any, newValue: any) => {
-                    switch(newValue){
-                      case 0:
-                        history.push('/learn');
-                        break;
-                      case 1:
-                        history.push('/journal');
-                        break;
-                    }
-                    setBottomNavigationLocation(newValue);
-                }}
-                showLabels
-            >
-                <BottomNavigationAction label="Learn" />
-                <BottomNavigationAction label="Journal" />
-            </BottomNavigation>
-        </Hidden>
+      </PageContainer>
     </ThemeProvider>
   );
 }

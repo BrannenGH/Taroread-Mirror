@@ -18,11 +18,7 @@ const CardDescription = (props: any) => {
     
     return (
         <div>
-        <Paper>
-            <Box m={3}>
-                <Typography>{card?.name}</Typography>
-            </Box>
-        </Paper>
+
         <Grid container spacing={2} justify="center">
             <Grid item md={4} xs={12}>
                 <TarotCard card={card} showMetadata={true}></TarotCard>
