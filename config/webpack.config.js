@@ -27,6 +27,44 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
+// Logic to support deep linking when serving the site using just a static site server.
+// By generating multiple index.html files, when the users navigate directly to deep links, 
+// instead of receiving a 404, there is a file there to serve.
+const routes = require('./static-routes.json');
+
+const buildRoutePlugins = (isEnvProduction) => {
+  return ["index.html", ...routes].map(route => {
+    return new HtmlWebpackPlugin(
+        Object.assign(
+          {},
+          {
+            inject: true,
+            template: paths.appHtml,
+            filename: route
+          },
+          isEnvProduction
+            ? {
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+                },
+              }
+            : undefined
+        )
+      )
+  })
+}
+
+
+
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -76,6 +114,7 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -558,7 +597,9 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin(
+      // UPDATE: Generate multiple `index.html` files to support deep linking
+      ...buildRoutePlugins(isEnvProduction),
+      /*new HtmlWebpackPlugin(
         Object.assign(
           {},
           {
@@ -582,7 +623,7 @@ module.exports = function (webpackEnv) {
               }
             : undefined
         )
-      ),
+      ),*/
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
