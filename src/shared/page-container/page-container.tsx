@@ -14,8 +14,10 @@ import {
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { Navigation } from '../navigation/navigation';
+import { useAnalytics } from 'reactfire';
 
 const PageContainer = (props: any) => {
+  useAnalytics(); 
   const [bottomNavigationLocation, setBottomNavigationLocation] = React.useState(0);
   const history = useHistory();
 
