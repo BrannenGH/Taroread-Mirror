@@ -1,7 +1,10 @@
 .navigation {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: start;
     width: 100%;
 }
 
+.navigation a {
+    margin: 1rem;
+}
