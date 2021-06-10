@@ -16,24 +16,14 @@ import {
 import { Home } from './home/home';
 import { createMuiTheme } from '@material-ui/core/styles';
 import firebase from 'firebase/app';
-import firebaseConfig from './firebase-config.json';
 import { Journal } from './journal/journal';
 import { TarotCardMetadata } from './shared/tarot-cards/tarot-card-metadata';
 import { getTarotMetadata } from './shared/tarot-cards/tarot-card-service';
 import { PageContainer } from './shared/page-container/page-container';
+import { FirebaseAppProvider } from 'reactfire';
+import firebaseConfig from './firebase-config.json';
 
 function App() {
-  // Initialize Firebase.
-  const firebaseApp = (function() {
-    if (!firebase.apps.length) {
-      return firebase.initializeApp(firebaseConfig);
-    } else {
-      return firebase.app();
-    }
-  })();
-
-  const [user, setUser] = React.useState<firebase.User | null>(null);
-
   // Bootstrap the application by pulling all the TaroCardMetadata.
   const [allCards, setAllCards] = useState<TarotCardMetadata[]>([]);
 
@@ -56,30 +46,26 @@ function App() {
     }
   })
 
-  firebase.auth().onAuthStateChanged((user) => {
-    setUser(user);
-  });
-
   return (
-    <ThemeProvider theme={taroreadTheme}>
-      <PageContainer
-        user={user}>
-        <Switch>
-          <Route path={`/learn`}>
-            <Learn 
-              allCards={allCards} />
-          </Route>
-          <Route path={`/journal`}>
-            <Journal 
-              allCards={allCards} 
-              user={user} />
-          </Route>
-          <Route path={`/`}>
-            <Home />
-          </Route>
-        </Switch>
-      </PageContainer>
-    </ThemeProvider>
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+      <ThemeProvider theme={taroreadTheme}>
+        <PageContainer>
+          <Switch>
+            <Route path={`/learn`}>
+              <Learn 
+                allCards={allCards} />
+            </Route>
+            <Route path={`/journal`}>
+              <Journal 
+                allCards={allCards} />
+            </Route>
+            <Route path={`/`}>
+              <Home />
+            </Route>
+          </Switch>
+        </PageContainer>
+      </ThemeProvider>
+    </FirebaseAppProvider>
   );
 }
 

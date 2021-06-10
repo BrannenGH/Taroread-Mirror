@@ -12,45 +12,49 @@ import {
 } from "react-router-dom";
 import { JournalEntry } from '../shared/tarot-journal/journal-entry';
 import firebase from 'firebase';
+import { Typography } from '@material-ui/core';
+import { useUser, useDatabase, useDatabaseList } from 'reactfire';
 
 const Journal = (props: any) => {
-    const [journals, setJournals] = React.useState<JournalEntry[]>([]);
+    const { data: currentUser } = useUser();
 
-    // Configure firebase database
-    var database = firebase.database();
+    const [journals, setJournals] = React.useState<JournalEntry[]>([]);
+    const journalDB = useDatabase().ref(`journals/${(currentUser as firebase.User)?.uid}`);
 
     useEffect(() => {
-        firebase.database().ref(`journals/${(props?.user as firebase.User)?.uid}`).get().then(res => {
+        journalDB.get().then(res => {
             setJournals(res.val() ?? []);
         });
-    })
+    }, [currentUser])
 
     const onModify = (journals: JournalEntry[]) => {
-        // TODO: If journals have an ID of null, create them in firebase.
-        firebase.database().ref(`journals/${(props?.user as firebase.User).uid}`).set(journals);
+        journalDB.set(journals);
         setJournals(journals);
-        /*firebase.database().ref(`journals/${(props?.user as firebase.User)?.uid}`).get().then(res => {
-            setJournals(res.val() ?? []);
-        });*/
     }
 
-    return (
-        <Switch>
-            <Route exact path={`/journal`}>
-                <JournalList
-                    allCards={props.allCards} 
-                    allJournals={journals}
-                    user={props?.user} 
-                    onModify={onModify}/>
-            </Route>
-            <Route path={`/journal/edit`}>
-                <JournalEdit
-                    allCards={props.allCards}
-                    allJournals={journals} 
-                    onModify={onModify} />
-            </Route>
-        </Switch> 
-    )
+    // If logged in
+    if (!!currentUser) {
+        return (
+            <Switch>
+                <Route exact path={`/journal`}>
+                    <JournalList
+                        allCards={props.allCards} 
+                        allJournals={journals}
+                        onModify={onModify}/>
+                </Route>
+                <Route path={`/journal/edit`}>
+                    <JournalEdit
+                        allCards={props.allCards}
+                        allJournals={journals} 
+                        onModify={onModify} />
+                </Route>
+            </Switch> 
+        )
+    } else {
+        return (
+            <Typography>You need to login to use Tarojournal.</Typography>
+        )
+    }
 }
 
 export { Journal };

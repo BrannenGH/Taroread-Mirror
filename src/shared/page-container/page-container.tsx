@@ -33,8 +33,7 @@ const PageContainer = (props: any) => {
                         <Typography variant="h3">Taroread</Typography>
                     </Grid>
                     </Link>
-                )}
-                    user={props.user}>
+                )}>
                     <Link to="/learn">
                     <Typography>Learn</Typography>
                     </Link>

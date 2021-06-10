@@ -16,10 +16,10 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
+import { useUser } from 'reactfire';
 
 const AccountDrawer = (props: any) => {
-    // TEMPORARY: User state should only exist at the root.
-    const [user, setUser] =  React.useState<firebase.User | null>(props.user);
+    const { data: currentUser } = useUser();
 
     // FirebaseUI config.
     var uiConfig = {
@@ -46,12 +46,8 @@ const AccountDrawer = (props: any) => {
 
     var ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
 
-    firebase.auth().onAuthStateChanged((user) => {
-        setUser(user);
-    });
-
     useEffect(() => {
-        if (!user) {
+        if (!currentUser) {
             ui.start('#auth', uiConfig);
         }
     });
@@ -79,7 +75,7 @@ const AccountDrawer = (props: any) => {
                     </Grid>
                     <Grid item>
                         <Paper>
-                            {!!user && 
+                            {currentUser && 
                                 <Grid
                                     container
                                     alignContent="center"
@@ -87,11 +83,11 @@ const AccountDrawer = (props: any) => {
                                     direction="column">
                                     <Grid item>
                                         <Box width="20%">
-                                            <Avatar alt={user?.displayName ?? ""} src={user?.photoURL ?? ""} className="avatar"/>
+                                            <Avatar alt={currentUser?.displayName ?? ""} src={currentUser?.photoURL ?? ""} className="avatar"/>
                                         </Box>
                                     </Grid>
                                     <Grid item>
-                                        <Typography>Welcome {user?.displayName}</Typography>
+                                        <Typography>Welcome {currentUser?.displayName}</Typography>
                                     </Grid>
                                     <Grid item>
                                         <Button
@@ -99,7 +95,7 @@ const AccountDrawer = (props: any) => {
                                     </Grid>
                                 </Grid>
                             }
-                            {!user &&  <div id="auth"></div>}
+                            {!currentUser &&  <div id="auth"></div>}
                         </Paper>
                     </Grid>
                 </Grid>
