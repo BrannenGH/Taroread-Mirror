@@ -71,6 +71,7 @@ const JournalEdit = (props: any) => {
                                                         name={`cards.${i}`}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
+                                                        onDelete={() => arrayHelpers.remove(i)}
                                                         initialValue={card}
                                                         allCards={props.allCards} />
                                                 </Grid>

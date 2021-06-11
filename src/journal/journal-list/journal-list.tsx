@@ -7,7 +7,8 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  useHistory
 } from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
 import { getTarotMetadata } from '../../shared/tarot-cards/tarot-card-service';
@@ -19,6 +20,7 @@ import { useUser, useDatabaseList } from 'reactfire';
 
 const JournalList = (props: any) => {
   const { data: currentUser } = useUser();
+  const history = useHistory();
 
     return (
         <Grid>
@@ -36,11 +38,14 @@ const JournalList = (props: any) => {
           </Grid>
           <Grid item>
             {props.allJournals.map((journal: JournalEntry, index: number) => (
-              <Link to={`/journal/edit?user=${(currentUser as firebase.User)?.uid}&id=${index}`}>
-                <JournalListItem
-                  allCards={props.allCards} 
-                  journal={journal} />
-              </Link>
+              <JournalListItem
+                allCards={props.allCards} 
+                journal={journal}
+                onClick={() => history.push(`/journal/edit?user=${(currentUser as firebase.User)?.uid}&id=${index}`)}
+                onDelete={() => {
+                  props.allJournals.splice(index, 1);
+                  props.onModify(props.allJournals);
+                }} />
             ))}
           </Grid>
         </Grid>

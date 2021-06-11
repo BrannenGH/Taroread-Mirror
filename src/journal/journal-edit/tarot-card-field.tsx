@@ -35,6 +35,10 @@ const TarotCardField = (props: any) => {
           <Box>
             <Box 
               onClick={() => setOpen(true)}>
+              <Button
+                onClick={(e) => {props.onDelete(); e.stopPropagation();}}>
+                -
+              </Button>
               <TarotCard
                 card={props.allCards.find((card: any) => card.value === field.value)} />
             </Box>
