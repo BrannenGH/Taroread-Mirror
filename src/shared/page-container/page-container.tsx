@@ -34,6 +34,7 @@ import {
 import { createMuiTheme } from "@material-ui/core/styles";
 import { Navigation } from "../navigation/navigation";
 import { useAnalytics } from "reactfire";
+import "./page-container.css";
 
 const PageContainer = (props: any) => {
   useAnalytics();
@@ -42,8 +43,8 @@ const PageContainer = (props: any) => {
   const history = useHistory();
 
   return (
-    <Box>
-      <AppBar position="static">
+    <Box mb={8}>
+      <AppBar position="sticky">
         <Toolbar>
           <Navigation
             branding={
@@ -67,6 +68,7 @@ const PageContainer = (props: any) => {
       <Box m={2}>{props.children}</Box>
       <Hidden mdUp={true}>
         <BottomNavigation
+          className="bottom-navigation"
           value={bottomNavigationLocation}
           onChange={(event: any, newValue: any) => {
             switch (newValue) {
