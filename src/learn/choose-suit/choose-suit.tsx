@@ -49,9 +49,12 @@ const ChooseSuit = (props: any) => {
           throw Error();
       }
 
-      // Typescript thinks there could be a possible null derefence here
-      //@ts-ignore
-      if (!current.reversed && (accum[n] === null || accum[n].value < current.value)) {
+      if (
+        !current.reversed &&
+        // Typescript thinks there could be a possible null derefence here
+        //@ts-ignore
+        (accum[n] === null || accum[n].value < current.value)
+      ) {
         accum[n] = current;
       }
 
