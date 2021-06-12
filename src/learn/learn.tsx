@@ -29,8 +29,8 @@ const Learn = (props: any) => {
           onSelection={(card: TarotCardMetadata) =>
             history.push(
               `/learn/${encodeURIComponent(
-                card.suit.toLowerCase()
-              )}/${encodeURIComponent(card.name.toLowerCase())}`
+                card?.suit?.toLowerCase()
+              )}/${encodeURIComponent(card?.name?.toLowerCase())}`
             )
           }
         />
@@ -39,7 +39,7 @@ const Learn = (props: any) => {
         <ChooseSuit
           cards={props.allCards}
           onSelection={(suit: string) =>
-            history.push(`/learn/${encodeURIComponent(suit.toLowerCase())}`)
+            history.push(`/learn/${encodeURIComponent(suit?.toLowerCase())}`)
           }
         />
       </Route>

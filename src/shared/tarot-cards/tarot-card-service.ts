@@ -31,4 +31,8 @@ const buildImageUrl: (picture: PictureMetadata) => string = (picture) => {
   return apiBase + picture?.url;
 };
 
-export { getTarotMetadata, buildImageUrl };
+const reverse = (normal: TarotCardMetadata, allCards: TarotCardMetadata[]): TarotCardMetadata | undefined => {
+  return allCards.find(card => card.value === ((normal.value + 78) % 156));
+}
+
+export { getTarotMetadata, buildImageUrl, reverse };

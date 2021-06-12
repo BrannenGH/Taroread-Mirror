@@ -39,7 +39,7 @@ const CardDescription = (props: any) => {
         </Grid>
         <Grid item md={8} xs={12}>
           <Grid container direction="row">
-            {card?.keywords.split(/, /g).map((keyword: string) => (
+            {card?.keywords?.split(/, /g)?.map((keyword: string) => (
               <Box borderRadius={16} p={0.5}>
                 <Paper>
                   <Box m={2}>

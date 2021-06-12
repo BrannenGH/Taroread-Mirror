@@ -21,6 +21,8 @@ import {
 } from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
 import { TarotCardMetadata } from "../../shared/tarot-cards/tarot-card-metadata";
+import ReverseIcon from '@material-ui/icons/Autorenew';
+import { reverse } from '../../shared/tarot-cards/tarot-card-service';
 
 const apiBase = "https://api.hallb.me";
 
@@ -43,6 +45,7 @@ const ChooseCard = (props: any) => {
             xs={6}
             onClick={() => props.onSelection(card)}
           >
+            <ReverseIcon onClick={(e) => {props.onSelection(reverse(card, props.allCards)); e.stopPropagation();}} /> 
             <TarotCard card={card} />
           </Grid>
         ))}
