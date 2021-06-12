@@ -20,12 +20,13 @@ import {
   useParams,
 } from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
+import { TarotCardMetadata } from "../../shared/tarot-cards/tarot-card-metadata";
 
 const apiBase = "https://api.hallb.me";
 
 const ChooseCard = (props: any) => {
   let suit = (useParams() as any)?.suit ?? props.suit;
-  let cards = props.allCards.filter(
+  let cards: TarotCardMetadata[] = props.allCards.filter(
     (card: any) =>
       card.suit.toLowerCase() === decodeURIComponent(suit).toLowerCase()
   );
@@ -34,7 +35,7 @@ const ChooseCard = (props: any) => {
     <div>
       <Typography>Pick Card</Typography>
       <Grid container spacing={2} justify="center" alignItems="center">
-        {cards?.map((card: any) => (
+        {cards?.filter(card => !card.reversed).map(card => (
           <Grid
             item
             lg={2}

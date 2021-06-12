@@ -20,13 +20,14 @@ import {
   useParams,
 } from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
+import { TarotCardMetadata } from "../../shared/tarot-cards/tarot-card-metadata";
 
 const apiBase = "https://api.hallb.me";
 
 const ChooseSuit = (props: any) => {
   // Go through every card, the card with the highest value is the face for that Suit
   const suitCards = props.cards.reduce(
-    (accum: any, current: any) => {
+    (accum: (TarotCardMetadata | null)[], current: TarotCardMetadata) => {
       var n;
       switch (current.suit) {
         case "Major":
@@ -48,7 +49,9 @@ const ChooseSuit = (props: any) => {
           throw Error();
       }
 
-      if (accum[n] == null || accum[n].value < current.value) {
+      // Typescript thinks there could be a possible null derefence here
+      //@ts-ignore
+      if (!current.reversed && (accum[n] === null || accum[n].value < current.value)) {
         accum[n] = current;
       }
 

@@ -11,6 +11,7 @@ interface TarotCardMetadata {
   astrologicalSign: string;
   planet: string;
   picture: PictureMetadata[];
+  reversed: boolean;
 }
 
 interface PictureMetadata {
