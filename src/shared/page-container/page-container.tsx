@@ -35,6 +35,8 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { Navigation } from "../navigation/navigation";
 import { useAnalytics } from "reactfire";
 import "./page-container.css";
+import TaroLearnIcon from "@material-ui/icons/MenuBook";
+import TaroJournalIcon from "@material-ui/icons/Create";
 
 const PageContainer = (props: any) => {
   useAnalytics();
@@ -56,12 +58,16 @@ const PageContainer = (props: any) => {
               </Link>
             }
           >
-            <Link to="/learn">
-              <Typography>Learn</Typography>
-            </Link>
-            <Link to="/journal">
-              <Typography>Journal</Typography>
-            </Link>
+            <li>
+              <Link to="/learn">
+                <Typography>Learn</Typography>
+              </Link>
+            </li>
+            <li>
+              <Link to="/journal">
+                <Typography>Journal</Typography>
+              </Link>
+            </li>
           </Navigation>
         </Toolbar>
       </AppBar>
@@ -83,8 +89,8 @@ const PageContainer = (props: any) => {
           }}
           showLabels
         >
-          <BottomNavigationAction label="Learn" />
-          <BottomNavigationAction label="Journal" />
+          <BottomNavigationAction label="Learn" icon={<TaroLearnIcon />} />
+          <BottomNavigationAction label="Journal" icon={<TaroJournalIcon />} />
         </BottomNavigation>
       </Hidden>
     </Box>

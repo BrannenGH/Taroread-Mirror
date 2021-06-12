@@ -5,6 +5,7 @@
   width: 100%;
 }
 
-.navigation a {
+.navigation li {
   margin: 1rem;
+  list-style: none;
 }
