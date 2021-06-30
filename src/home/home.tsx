@@ -8,22 +8,30 @@ const Home = (props: any) => {
       <Typography>Welcome to Taroread!</Typography>
       <Grid container>
         <Grid item md={4} xs={6}>
-          <Link to="/learn">
-            <Card>
-              <Typography>
-                Learn about what each of the Tarot Cards mean
-              </Typography>
-            </Card>
-          </Link>
+          <Box m={2}>
+            <Link to="/learn">
+              <Card>
+                <Box p={4}>
+                  <Typography>
+                    Learn about what each of the Tarot Cards mean
+                  </Typography>
+                </Box>
+              </Card>
+            </Link>
+          </Box>
         </Grid>
         <Grid item md={4} xs={6}>
-          <Link to="/journal">
-            <Card>
-              <Typography>
-                Record your readings to track your progress
-              </Typography>
-            </Card>
-          </Link>
+          <Box m={2}>
+            <Link to="/journal">
+              <Card>
+                <Box p={4}>
+                  <Typography>
+                    Record your readings to track your progress
+                  </Typography>
+                </Box>
+              </Card>
+            </Link>
+          </Box>
         </Grid>
       </Grid>
     </Box>
