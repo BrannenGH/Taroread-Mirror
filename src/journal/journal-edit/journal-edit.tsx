@@ -30,6 +30,7 @@ import { TarotCardField } from "./tarot-card-field";
 import { JournalEntry } from "../../shared/tarot-journal/journal-entry";
 import { Formik, FieldArray } from "formik";
 import { Description, Add } from "@material-ui/icons";
+import { ContentContainer } from "../../shared/content-container/content-container";
 
 const JournalEdit = (props: any) => {
   let query = new URLSearchParams(useLocation().search);
@@ -37,10 +38,9 @@ const JournalEdit = (props: any) => {
   const journal = props.allJournals[id];
 
   return (
-    <Grid container alignItems="center" justify="center">
-      <Grid item xs={false} md={2}></Grid>
-      <Grid item xs={12} md={8}>
-        <Paper>
+    <ContentContainer title="Edit Reading">
+      <Card variant="outlined">
+        <CardContent>
           <Formik
             initialValues={journal}
             onSubmit={(values, { setSubmitting }) => {
@@ -70,6 +70,7 @@ const JournalEdit = (props: any) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         defaultValue={values.title}
+                        style={{ width: "100%" }}
                       />
                     </Grid>
                     <Grid item>
@@ -80,6 +81,7 @@ const JournalEdit = (props: any) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         defaultValue={values.date}
+                        style={{ width: "100%" }}
                       />
                     </Grid>
                     <Grid item>
@@ -89,14 +91,16 @@ const JournalEdit = (props: any) => {
                           <Grid container>
                             {values?.cards?.map((card: any, i: number) => (
                               <Grid item xs={6} md={1}>
-                                <TarotCardField
-                                  name={`cards.${i}`}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  onDelete={() => arrayHelpers.remove(i)}
-                                  initialValue={card}
-                                  allCards={props.allCards}
-                                />
+                                <Box m={1}>
+                                  <TarotCardField
+                                    name={`cards.${i}`}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    onDelete={() => arrayHelpers.remove(i)}
+                                    initialValue={card}
+                                    allCards={props.allCards}
+                                  />
+                                </Box>
                               </Grid>
                             ))}
                             <Grid item md={1}>
@@ -117,10 +121,12 @@ const JournalEdit = (props: any) => {
                       <TextField
                         name="description"
                         label="Notes"
+                        variant="outlined"
                         multiline
                         onChange={handleChange}
                         onBlur={handleBlur}
                         defaultValue={values.description}
+                        style={{ width: "100%" }}
                       />
                     </Grid>
                     <Grid item>
@@ -133,10 +139,9 @@ const JournalEdit = (props: any) => {
               </Box>
             )}
           </Formik>
-        </Paper>
-      </Grid>
-      <Grid item xs={false} md={2}></Grid>
-    </Grid>
+        </CardContent>
+      </Card>
+    </ContentContainer>
   );
 };
 
