@@ -1,0 +1,36 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '15.x'
+  displayName: 'Install Node.js'
+
+- task: DownloadSecureFile@1
+  name: firebaseconfig
+  displayName: 'Download Firebase Config'
+  inputs:
+    secureFile: 'firebase-config.json'
+
+- script: |
+    cp $(firebaseconfig.secureFilePath) $(Build.Repository.LocalPath)/src/
+  displayName: 'Copy Firebase Config'
+
+- script: |
+    npm install
+    npm run fetch-metadata
+    npm run generate-routes
+    npm run build
+  displayName: 'npm install and build'
+
+- publish: $(Build.Repository.LocalPath)/build/
+  artifact: Taroread
