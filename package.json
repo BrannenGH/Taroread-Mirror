@@ -96,7 +96,7 @@
     "test": "node scripts/test.js",
     "fetch-metadata": "node scripts/fetch-metadata.js",
     "generate-routes": "node scripts/generate-routes.js",
-    "generate-android": "npx ionic capacitor build android",
+    "generate-android": "npx ionic capacitor update",
     "build-android": "./android/gradlew build -x :capacitor-android:lint"
   },
   "eslintConfig": {

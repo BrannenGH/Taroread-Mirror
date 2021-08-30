@@ -1,0 +1,39 @@
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '15.x'
+  displayName: 'Install Node.js'
+
+- task: DownloadSecureFile@1
+  name: firebaseconfig
+  displayName: 'Download Firebase Config'
+  inputs:
+    secureFile: 'firebase-config.json'
+
+- script: |
+    cp $(firebaseconfig.secureFilePath) $(Build.Repository.LocalPath)/src/
+  displayName: 'Copy Firebase Config'
+
+- script: |
+    npm install
+    npm run fetch-metadata
+    npm run generate-routes
+    npm run build
+    npm run generate-android 
+  displayName: 'npm install and build'
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: $(Build.Repository.LocalPath)/android/
+    gradleWrapperFile: $(Build.Repository.LocalPath)/android/gradlew
+    publishJUnitResults: false
+    tasks: 'build -x :capacitor-android:lint'
+  displayName: "Build APK"
+
+- task: AppCenterDistribute@3
+  inputs:
+    serverEndpoint: AppCenter
+    appSlug: Brannen/Taroread-Android 
+    appFile: $(Build.Repository.LocalPath)/android/app/build/outputs/apk/debug/app-debug.apk
+    releaseNotesOption: 'input' 
+    releaseNotesInput: 'Debug'
