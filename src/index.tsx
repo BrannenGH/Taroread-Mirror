@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import '@ionic/react/css/core.css';
 import Logo from "./logo.svg";
 import "./index.css";
 import ReactDOM from "react-dom";
@@ -28,6 +29,12 @@ import {
   Link,
   useHistory,
 } from "react-router-dom";
+import {
+  IonApp
+} from "@ionic/react";
+import {
+  IonReactRouter
+} from "@ionic/react-router";
 import { Home } from "./home/home";
 import { createMuiTheme } from "@material-ui/core/styles";
 import firebase from "firebase/app";
@@ -60,23 +67,27 @@ function App() {
   });
 
   return (
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <ThemeProvider theme={taroreadTheme}>
-        <PageContainer>
-          <Switch>
-            <Route path={`/learn`}>
-              <Learn allCards={allCards} />
-            </Route>
-            <Route path={`/journal`}>
-              <Journal allCards={allCards} />
-            </Route>
-            <Route path={`/`}>
-              <Home />
-            </Route>
-          </Switch>
-        </PageContainer>
-      </ThemeProvider>
-    </FirebaseAppProvider>
+    <IonApp>
+      <IonReactRouter>
+        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+          <ThemeProvider theme={taroreadTheme}>
+            <PageContainer>
+              <Switch>
+                <Route path={`/learn`}>
+                  <Learn allCards={allCards} />
+                </Route>
+                <Route path={`/journal`}>
+                  <Journal allCards={allCards} />
+                </Route>
+                <Route path={`/`}>
+                  <Home />
+                </Route>
+              </Switch>
+            </PageContainer>
+          </ThemeProvider>
+        </FirebaseAppProvider>
+      </IonReactRouter>
+    </IonApp>
   );
 }
 

@@ -1,0 +1,7 @@
+{
+  "name": "Taroread",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

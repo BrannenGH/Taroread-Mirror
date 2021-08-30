@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Taroread",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
