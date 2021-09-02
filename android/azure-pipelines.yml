@@ -28,6 +28,11 @@ steps:
     npm run generate-android 
   displayName: 'npm install and build'
 
+- task: android-manifest-version@1
+  inputs:
+    sourcePath: $(Build.Repository.LocalPath)/android/app/src/main/AndroidManifest.xml
+  displayName: "Update Taroread version code"
+
 - task: Gradle@2
   inputs:
     workingDirectory: $(Build.Repository.LocalPath)/android/
@@ -43,3 +48,4 @@ steps:
     appFile: $(Build.Repository.LocalPath)/android/app/build/outputs/apk/debug/app-debug.apk
     releaseNotesOption: 'input' 
     releaseNotesInput: 'Debug'
+  displayName: "Distribute to AppCenter"
