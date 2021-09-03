@@ -14,6 +14,7 @@ import { JournalEntry } from "../shared/tarot-journal/journal-entry";
 import firebase from "firebase";
 import { Typography } from "@material-ui/core";
 import { useUser, useDatabase, useDatabaseList } from "reactfire";
+import { PageContainer } from "../shared/page-container/page-container";
 
 const Journal = (props: any) => {
   const { data: currentUser } = useUser();
@@ -39,18 +40,22 @@ const Journal = (props: any) => {
     return (
       <Switch>
         <Route exact path={`/journal`}>
-          <JournalList
-            allCards={props.allCards}
-            allJournals={journals}
-            onModify={onModify}
-          />
+          <PageContainer>
+            <JournalList
+              allCards={props.allCards}
+              allJournals={journals}
+              onModify={onModify}
+            />
+          </PageContainer>
         </Route>
         <Route path={`/journal/edit`}>
-          <JournalEdit
-            allCards={props.allCards}
-            allJournals={journals}
-            onModify={onModify}
-          />
+          <PageContainer>
+            <JournalEdit
+              allCards={props.allCards}
+              allJournals={journals}
+              onModify={onModify}
+            />
+          </PageContainer>
         </Route>
       </Switch>
     );

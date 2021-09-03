@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import '@ionic/react/css/core.css';
+import "@ionic/react/css/core.css";
 import Logo from "./logo.svg";
 import "./index.css";
 import ReactDOM from "react-dom";
@@ -29,12 +29,8 @@ import {
   Link,
   useHistory,
 } from "react-router-dom";
-import {
-  IonApp
-} from "@ionic/react";
-import {
-  IonReactRouter
-} from "@ionic/react-router";
+import { IonApp, IonTabs, IonRouterOutlet, isPlatform } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
 import { Home } from "./home/home";
 import { createMuiTheme } from "@material-ui/core/styles";
 import firebase from "firebase/app";
@@ -66,34 +62,53 @@ function App() {
     },
   });
 
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          <ThemeProvider theme={taroreadTheme}>
-            <PageContainer>
-              <Switch>
-                <Route path={`/learn`}>
+  const isNative = isPlatform("ios") || isPlatform("android");
+
+  if (isNative) {
+    return (
+      <IonApp>
+        <IonReactRouter>
+          <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+            <ThemeProvider theme={taroreadTheme}>
+              <IonRouterOutlet>
+                <Route path="/learn">
                   <Learn allCards={allCards} />
                 </Route>
-                <Route path={`/journal`}>
+                <Route path="/journal">
                   <Journal allCards={allCards} />
                 </Route>
-                <Route path={`/`}>
-                  <Home />
+                <Route>
+                  <PageContainer>
+                    <Home />
+                  </PageContainer>
                 </Route>
-              </Switch>
-            </PageContainer>
+              </IonRouterOutlet>
+            </ThemeProvider>
+          </FirebaseAppProvider>
+        </IonReactRouter>
+      </IonApp>
+    );
+  } else {
+    return (
+      <Router>
+        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+          <ThemeProvider theme={taroreadTheme}>
+            <Switch>
+              <Route path={`/learn`}>
+                <Learn allCards={allCards} />
+              </Route>
+              <Route path={`/journal`}>
+                <Journal allCards={allCards} />
+              </Route>
+              <Route path={`/`}>
+                <Home />
+              </Route>
+            </Switch>
           </ThemeProvider>
         </FirebaseAppProvider>
-      </IonReactRouter>
-    </IonApp>
-  );
+      </Router>
+    );
+  }
 }
 
-ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));

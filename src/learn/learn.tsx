@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import { TarotCardMetadata } from "../shared/tarot-cards/tarot-card-metadata";
 import { getTarotMetadata } from "../shared/tarot-cards/tarot-card-service";
+import { PageContainer } from "../shared/page-container/page-container";
 
 const Learn = (props: any) => {
   const history = useHistory();
@@ -21,27 +22,33 @@ const Learn = (props: any) => {
   return (
     <Switch>
       <Route exact path={`/learn/:suit/:name`}>
-        <CardDescription allCards={props.allCards}></CardDescription>
+        <PageContainer>
+          <CardDescription allCards={props.allCards}></CardDescription>
+        </PageContainer>
       </Route>
       <Route exact path={`/learn/:suit`}>
-        <ChooseCard
-          allCards={props.allCards}
-          onSelection={(card: TarotCardMetadata) =>
-            history.push(
-              `/learn/${encodeURIComponent(
-                card?.suit?.toLowerCase()
-              )}/${encodeURIComponent(card?.name?.toLowerCase())}`
-            )
-          }
-        />
+        <PageContainer>
+          <ChooseCard
+            allCards={props.allCards}
+            onSelection={(card: TarotCardMetadata) =>
+              history.push(
+                `/learn/${encodeURIComponent(
+                  card?.suit?.toLowerCase()
+                )}/${encodeURIComponent(card?.name?.toLowerCase())}`
+              )
+            }
+          />
+        </PageContainer>
       </Route>
       <Route exact path={`/learn`}>
-        <ChooseSuit
-          cards={props.allCards}
-          onSelection={(suit: string) =>
-            history.push(`/learn/${encodeURIComponent(suit?.toLowerCase())}`)
-          }
-        />
+        <PageContainer>
+          <ChooseSuit
+            cards={props.allCards}
+            onSelection={(suit: string) =>
+              history.push(`/learn/${encodeURIComponent(suit?.toLowerCase())}`)
+            }
+          />
+        </PageContainer>
       </Route>
     </Switch>
   );
