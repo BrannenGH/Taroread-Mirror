@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'me.tarotantula.taroread',
+  appId: 'com.tarotantula.taroread',
   appName: 'Taroread',
   webDir: 'build',
   bundledWebRuntime: false
