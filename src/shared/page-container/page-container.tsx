@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../logo.svg";
 import ReactDOM from "react-dom";
 import axios from "axios";
@@ -50,7 +50,9 @@ import {
   IonTabButton,
   IonTabs,
   IonLabel,
+  IonButton,
 } from "@ionic/react";
+import { AccountDrawerNative } from "../account-drawer-native/account-drawer-native";
 
 const PageContainer = (props: any) => {
   useAnalytics();
@@ -58,52 +60,60 @@ const PageContainer = (props: any) => {
     React.useState(0);
   const history = useHistory();
   const isNative = isPlatform("ios") || isPlatform("android");
+  const [isOpen, setIsOpen] = useState(false);
 
   const getNavigation = () => (
-          <BottomNavigation
-            className="bottom-navigation"
-            value={bottomNavigationLocation}
-            onChange={(event: any, newValue: any) => {
-              switch (newValue) {
-                case 0:
-                  history.push("/learn");
-                  break;
-                case 1:
-                  history.push("/journal");
-                  break;
-              }
-              setBottomNavigationLocation(newValue);
-            }}
-            showLabels
-          >
-            <BottomNavigationAction label="Learn" icon={<TaroLearnIcon />} />
-            <BottomNavigationAction
-              label="Journal"
-              icon={<TaroJournalIcon />}
-            />
-          </BottomNavigation>
-  )
-
-  
+    <BottomNavigation
+      className="bottom-navigation"
+      value={bottomNavigationLocation}
+      onChange={(event: any, newValue: any) => {
+        switch (newValue) {
+          case 0:
+            history.push("/learn");
+            break;
+          case 1:
+            history.push("/journal");
+            break;
+        }
+        setBottomNavigationLocation(newValue);
+      }}
+      showLabels
+    >
+      <BottomNavigationAction label="Learn" icon={<TaroLearnIcon />} />
+      <BottomNavigationAction label="Journal" icon={<TaroJournalIcon />} />
+    </BottomNavigation>
+  );
 
   if (isNative) {
     return (
-      <IonPage>
-        <IonContent>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonBackButton />
-              </IonButtons>
-              <IonTitle>{document.title}</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <Box mb={8}>
-            <Box m={2}>{props.children}</Box>
-          </Box>
-          {getNavigation()}
-        </IonContent>
-      </IonPage>
+      <div>
+        <AccountDrawerNative isOpen={isOpen}></AccountDrawerNative>
+        <IonPage id="main">
+          <IonContent>
+            <IonHeader>
+              <IonToolbar>
+                <IonButtons slot="start">
+                  <IonBackButton />
+                </IonButtons>
+                <IonTitle>{document.title}</IonTitle>
+                <IonButtons slot="end">
+                  <IonButton
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
+                  >
+                    Open
+                  </IonButton>
+                </IonButtons>
+              </IonToolbar>
+            </IonHeader>
+            <Box mb={8}>
+              <Box m={2}>{props.children}</Box>
+            </Box>
+            {getNavigation()}
+          </IonContent>
+        </IonPage>
+      </div>
     );
   } else {
     return (
@@ -134,9 +144,7 @@ const PageContainer = (props: any) => {
           </Toolbar>
         </AppBar>
         <Box m={2}>{props.children}</Box>
-        <Hidden mdUp={true}>
-          {getNavigation()}
-        </Hidden>
+        <Hidden mdUp={true}>{getNavigation()}</Hidden>
       </Box>
     );
   }

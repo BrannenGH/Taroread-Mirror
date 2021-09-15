@@ -1,0 +1,48 @@
+{
+    "project_info": {
+      "project_number": "304549500804",
+      "firebase_url": "https://taroread-6858e-default-rtdb.firebaseio.com",
+      "project_id": "taroread-6858e",
+      "storage_bucket": "taroread-6858e.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:304549500804:android:0cfc156b803e203faa6fd1",
+          "android_client_info": {
+            "package_name": "com.tarotantula.taroread"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "304549500804-k35dfsnbdaljm1fqg481tr1904tttr4r.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.tarotantula.taroread",
+              "certificate_hash": "f18bafb97fe2b493ae94391d8f7af32fad46dfe6"
+            }
+          },
+          {
+            "client_id": "304549500804-hjf6i2260g54lldkrp6v4aa13fucs79p.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBQ-pXqjsHEGy2RbCPuQNAwr1HSS98qlc4"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "304549500804-hjf6i2260g54lldkrp6v4aa13fucs79p.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

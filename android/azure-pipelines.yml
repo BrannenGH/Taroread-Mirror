@@ -41,6 +41,14 @@ steps:
     tasks: 'build -x :capacitor-android:lint'
   displayName: "Build APK"
 
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: $(Build.Repository.LocalPath)/android/app/build/outputs/apk/debug/app-debug.apk 
+    apksign: true # Optional
+    apksignerKeystoreFile: taroread.keystore
+    apksignerKeystorePassword: $(keystoreDebugPassword)
+    apksignerKeystoreAlias: taroread
+
 - task: AppCenterDistribute@3
   inputs:
     serverEndpoint: AppCenter

@@ -24,3 +24,6 @@ yarn-error.log*
 firebase-config.json
 tarot-metadata.json
 static-routes.json
+
+.gradle/
+*.keystore

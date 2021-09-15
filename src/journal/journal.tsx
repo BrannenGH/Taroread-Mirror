@@ -60,7 +60,11 @@ const Journal = (props: any) => {
       </Switch>
     );
   } else {
-    return <Typography>You need to login to use Tarojournal.</Typography>;
+    return (
+      <PageContainer>
+        <Typography>You need to login to use Tarojournal.</Typography>;
+      </PageContainer>
+    )
   }
 };
 
