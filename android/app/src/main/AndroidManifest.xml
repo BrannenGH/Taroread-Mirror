@@ -26,9 +26,6 @@
 
         </activity>
 
-        <activity
-            android:name="com.tarotantula.taroread.FirebaseBActivity"
-            android:label="Taroread" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

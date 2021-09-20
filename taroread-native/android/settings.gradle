@@ -1,0 +1,4 @@
+include ':capacitor-android'
+// Uses parent @capactior/android. When this is split into it's own repository, this should be
+// updated to use only one directory up.
+project(':capacitor-android').projectDir = new File('../../node_modules/@capacitor/android/capacitor')

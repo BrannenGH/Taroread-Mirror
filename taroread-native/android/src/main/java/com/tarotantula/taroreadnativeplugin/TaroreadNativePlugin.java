@@ -1,23 +1,15 @@
-package com.tarotantula.taroread;
+package com.tarotantula.taroreadnativeplugin;
 
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 
-import com.getcapacitor.JSObject;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
-import com.getcapacitor.annotation.ActivityCallback;
-import com.getcapacitor.annotation.CapacitorPlugin;
+import com.getcapacitor.*;
+import com.getcapacitor.annotation.*;
 
-@CapacitorPlugin(name = "FirebaseB")
-public class FirebaseBPlugin extends Plugin {
-
-    @Override
-    public void load() {
-    }
+@CapacitorPlugin(name = "TaroreadNative")
+public class TaroreadNativePlugin extends Plugin {
 
     @PluginMethod()
     public void signInWithGoogle(PluginCall call) {

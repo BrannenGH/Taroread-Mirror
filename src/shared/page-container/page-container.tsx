@@ -55,7 +55,6 @@ import {
 import { AccountDrawerNative } from "../account-drawer-native/account-drawer-native";
 
 const PageContainer = (props: any) => {
-  useAnalytics();
   const [bottomNavigationLocation, setBottomNavigationLocation] =
     React.useState(0);
   const history = useHistory();
@@ -84,42 +83,14 @@ const PageContainer = (props: any) => {
     </BottomNavigation>
   );
 
-  if (isNative) {
-    return (
-      <div>
-        <AccountDrawerNative isOpen={isOpen}></AccountDrawerNative>
-        <IonPage id="main">
-          <IonContent>
-            <IonHeader>
-              <IonToolbar>
-                <IonButtons slot="start">
-                  <IonBackButton />
-                </IonButtons>
-                <IonTitle>{document.title}</IonTitle>
-                <IonButtons slot="end">
-                  <IonButton
-                    onClick={() => {
-                      setIsOpen(!isOpen);
-                    }}
-                  >
-                    Open
-                  </IonButton>
-                </IonButtons>
-              </IonToolbar>
-            </IonHeader>
-            <Box mb={8}>
-              <Box m={2}>{props.children}</Box>
-            </Box>
-            {getNavigation()}
-          </IonContent>
-        </IonPage>
-      </div>
-    );
-  } else {
     return (
       <Box mb={8}>
+        <AccountDrawerNative
+          isOpen={isOpen} />
         <AppBar position="sticky">
           <Toolbar>
+            <Grid container direction="row" alignItems="center">
+
             <Navigation
               branding={
                 <Link to="/">
@@ -141,13 +112,14 @@ const PageContainer = (props: any) => {
                 </Link>
               </li>
             </Navigation>
+            </Grid>
           </Toolbar>
+          <Button onClick={() => {setIsOpen(true);}}>Account</Button>
         </AppBar>
         <Box m={2}>{props.children}</Box>
         <Hidden mdUp={true}>{getNavigation()}</Hidden>
       </Box>
     );
-  }
-};
+  };
 
 export { PageContainer };

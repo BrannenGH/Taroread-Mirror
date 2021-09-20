@@ -33,7 +33,7 @@ const Navigation = (props: any) => {
   const [userProfileVisible, setUserProfileVisible] = React.useState(false);
 
   return (
-    <Grid container direction="row" alignItems="center">
+    <React.Fragment>
       <Grid item xs={9} md={3}>
         {props.branding}
       </Grid>
@@ -44,19 +44,7 @@ const Navigation = (props: any) => {
           </nav>
         </Hidden>
       </Grid>
-      <Grid item xs={3} container direction="row-reverse">
-        <AccountCircle
-          onClick={() => setUserProfileVisible(true)}
-        ></AccountCircle>
-      </Grid>
-      <Drawer
-        anchor="right"
-        open={userProfileVisible}
-        onClose={() => setUserProfileVisible(false)}
-      >
-        <AccountDrawer onCloseDrawer={() => setUserProfileVisible(false)} />
-      </Drawer>
-    </Grid>
+    </React.Fragment>
   );
 };
 

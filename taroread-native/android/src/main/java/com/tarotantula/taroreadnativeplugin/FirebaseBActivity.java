@@ -1,4 +1,4 @@
-package com.tarotantula.taroread;
+package com.tarotantula.taroreadnativeplugin;
 
 import android.app.Activity;
 
@@ -86,3 +86,4 @@ public class FirebaseBActivity extends Activity {
     }
 
 }
+

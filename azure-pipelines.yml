@@ -26,6 +26,11 @@ steps:
   displayName: 'Copy Firebase Config'
 
 - script: |
+    npm --prefix ./taroread-native install
+    npm --prefix ./taroread-native run build
+  displayName: 'Taroread native npm install and build'
+
+- script: |
     npm install
     npm run fetch-metadata
     npm run generate-routes

@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tarotantula.taroreadnativeplugin">
+
+    <application>
+        <activity
+            android:name="com.tarotantula.taroreadnativeplugin.FirebaseBActivity"
+            android:label="Taroread" />
+    </application>
+
+</manifest>
