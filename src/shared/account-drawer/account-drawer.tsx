@@ -1,127 +1,89 @@
-import React, { useEffect } from "react";
-import Logo from "./logo.svg";
-import "./account-drawer.css";
-import ReactDOM from "react-dom";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
-  AppBar,
-  Toolbar,
-  Card,
-  Typography,
-  Button,
-  CardContent,
-  Container,
-  Grid,
   Box,
-  CardMedia,
-  CardActionArea,
-  ThemeProvider,
-  Hidden,
-  BottomNavigation,
-  BottomNavigationAction,
+  Button,
   Drawer,
+  Typography,
+  Grid,
   Avatar,
-  Paper,
+  ButtonBase,
 } from "@material-ui/core";
-import { Menu, AccountCircle, ArrowBack } from "@material-ui/icons";
-import { spacing } from "@material-ui/system";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { createMuiTheme } from "@material-ui/core/styles";
-import firebase from "firebase";
-import * as firebaseui from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-import { useUser } from "reactfire";
+import {
+  signInWithGoogle,
+  getUser,
+} from "../authentication-service/authentication-service";
+import { TaroreadUser } from "taroread-native";
+import "./account-drawer.css";
 
+/**
+ * The element for both the logged-in and logged-out account drawers.
+ *
+ * @param props The props for the react object
+ * @returns A react element
+ */
 const AccountDrawer = (props: any) => {
-  const { data: currentUser } = useUser();
-
-  // FirebaseUI config.
-  var uiConfig = {
-    callbacks: {
-      signInSuccessWithAuthResult: (authResult: any, redirectUrl: any) => {
-        // User successfully signed in.
-        // Return type determines whether we continue the redirect automatically
-        // or whether we leave that to developer to handle.
-        return true;
-      },
-    },
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    ],
-    signInFlow: "popup",
-    // tosUrl and privacyPolicyUrl accept either url string or a callback
-    // function.
-    // Terms of service url/callback.
-    tosUrl: "https://tarotantula.com/",
-    // Privacy policy url/callback.
-    privacyPolicyUrl: "https://tarotantula.com/",
-  };
-
-  var ui =
-    firebaseui.auth.AuthUI.getInstance() ||
-    new firebaseui.auth.AuthUI(firebase.auth());
+  const [user, setUser] = useState<TaroreadUser | null>();
 
   useEffect(() => {
-    if (!currentUser) {
-      ui.start("#auth", uiConfig);
-    }
-  });
+    getUser()?.then((res: TaroreadUser | null) => {
+      setUser(res);
+    });
+  }, [user]);
 
-  return (
-    <Box className="account-drawer">
-      <Typography>
-        <Grid direction="column">
+  const getInnerDrawer = () => {
+    if (user === null) {
+      return (
+        <Grid container direction="column" alignItems="center">
           <Grid item>
-            <Paper>
-              <Grid
-                container
-                direction="row"
-                onClick={() => props?.onCloseDrawer()}
-              >
-                <Grid item xs={2}>
-                  <ArrowBack />
-                </Grid>
-                <Grid item xs={10}>
-                  <Typography>Go back</Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper>
-              {currentUser && (
-                <Grid
-                  container
-                  alignContent="center"
-                  alignItems="center"
-                  direction="column"
-                >
-                  <Grid item>
-                    <Box width="20%">
-                      <Avatar
-                        alt={currentUser?.displayName ?? ""}
-                        src={currentUser?.photoURL ?? ""}
-                        className="avatar"
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item>
-                    <Typography>Welcome {currentUser?.displayName}</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={() => firebase.auth().signOut()}>
-                      Logout
-                    </Button>
-                  </Grid>
-                </Grid>
-              )}
-              {!currentUser && <div id="auth"></div>}
-            </Paper>
+            <ButtonBase
+              onClick={() =>
+                signInWithGoogle().then((user: TaroreadUser | null) => {
+                  setUser(user);
+                })
+              }
+            >
+              <img
+                src="signin/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png"
+                alt="Sign in with Google"
+              />
+            </ButtonBase>
           </Grid>
         </Grid>
-      </Typography>
-    </Box>
+      );
+    } else {
+      return (
+        <Grid container direction="column" alignItems="center">
+          <Grid item>
+            <Avatar
+              alt={user?.displayName ?? "Anonymous User"}
+              src={user?.photoURL ?? ""}
+            />
+          </Grid>
+          <Grid item>
+            <Typography>{user?.displayName ?? "Anonymous User"}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography>{user?.email ?? ""}</Typography>
+          </Grid>
+          <Grid>
+            <Button>Sign Out</Button>
+          </Grid>
+        </Grid>
+      );
+    }
+  };
+
+  return (
+    <Drawer
+      classes={{
+        paper: "account-drawer",
+      }}
+      anchor="right"
+      open={props.isOpen}
+      onClose={props.onClose}
+    >
+      <Box m={3}>{getInnerDrawer()}</Box>
+    </Drawer>
   );
 };
 

@@ -52,7 +52,7 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/react";
-import { AccountDrawerNative } from "../account-drawer-native/account-drawer-native";
+import { AccountDrawer } from "../account-drawer/account-drawer";
 
 const PageContainer = (props: any) => {
   const [bottomNavigationLocation, setBottomNavigationLocation] =
@@ -85,8 +85,9 @@ const PageContainer = (props: any) => {
 
     return (
       <Box mb={8}>
-        <AccountDrawerNative
-          isOpen={isOpen} />
+        <AccountDrawer
+          isOpen={isOpen}
+          onClose={() => {setIsOpen(false)}} />
         <AppBar position="sticky">
           <Toolbar>
             <Grid container direction="row" alignItems="center">

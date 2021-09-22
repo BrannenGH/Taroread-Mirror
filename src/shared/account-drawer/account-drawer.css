@@ -1,9 +1,3 @@
 .account-drawer {
-  width: 100vw;
-}
-
-@media (min-width: 600px) {
-  .account-drawer {
-    width: 25vw;
-  }
+  min-width: 20vw;
 }
