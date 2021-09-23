@@ -87,6 +87,7 @@ const PageContainer = (props: any) => {
       <Box mb={8}>
         <AccountDrawer
           isOpen={isOpen}
+          setIsOpen={setIsOpen}
           onClose={() => {setIsOpen(false)}} />
         <AppBar position="sticky">
           <Toolbar>
