@@ -15,6 +15,7 @@ import {
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 /**
  * The element for both the logged-in and logged-out account drawers.
@@ -54,6 +55,18 @@ const AccountDrawer = (props: any) => {
     } else {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item>
+            <Grid container
+              direction="row">
+              <Grid item>
+                <ArrowBackIcon
+                  onClick={() => { props.setIsOpen(false) }} />
+              </Grid>
+              <Grid item>
+                <Typography>Back</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
           <Grid item>
             <Avatar
               alt={user?.displayName ?? "Anonymous User"}
