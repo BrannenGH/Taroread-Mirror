@@ -32,10 +32,28 @@ const AccountDrawer = (props: any) => {
     });
   }, [user]);
 
+  const getBackButton = () => {
+    return (
+      <Grid container
+        direction="row">
+        <Grid item>
+          <ArrowBackIcon
+            onClick={() => { props.setIsOpen(false) }} />
+        </Grid>
+        <Grid item>
+          <Typography>Back</Typography>
+        </Grid>
+      </Grid>
+    )
+  };
+
   const getInnerDrawer = () => {
     if (user === null) {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item>
+            {getBackButton()}
+          </Grid>
           <Grid item>
             <ButtonBase
               onClick={() =>
@@ -56,16 +74,7 @@ const AccountDrawer = (props: any) => {
       return (
         <Grid container direction="column" alignItems="center">
           <Grid item>
-            <Grid container
-              direction="row">
-              <Grid item>
-                <ArrowBackIcon
-                  onClick={() => { props.setIsOpen(false) }} />
-              </Grid>
-              <Grid item>
-                <Typography>Back</Typography>
-              </Grid>
-            </Grid>
+            {getBackButton()}
           </Grid>
           <Grid item>
             <Avatar
