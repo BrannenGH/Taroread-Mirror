@@ -11,6 +11,7 @@ import {
 import {
   signInWithGoogle,
   getUser,
+  signOut,
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
@@ -66,7 +67,7 @@ const AccountDrawer = (props: any) => {
             <Typography>{user?.email ?? ""}</Typography>
           </Grid>
           <Grid>
-            <Button>Sign Out</Button>
+            <Button onClick={signOut}>Sign Out</Button>
           </Grid>
         </Grid>
       );

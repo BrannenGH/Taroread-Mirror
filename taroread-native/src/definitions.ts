@@ -7,6 +7,7 @@ import firebase from 'firebase';
 export interface TaroreadNativePlugin {
   signInWithGoogle(): Promise<TaroreadUser | null>;
   getUser(): Promise<TaroreadUser | null>;
+  signOut(): Promise<void>;
 }
 
 /**

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.getcapacitor.*;
 import com.getcapacitor.annotation.*;
+import com.google.firebase.auth.FirebaseAuth;
 
 @CapacitorPlugin(name = "TaroreadNative")
 public class TaroreadNativePlugin extends Plugin {
@@ -15,6 +16,12 @@ public class TaroreadNativePlugin extends Plugin {
     public void signInWithGoogle(PluginCall call) {
         Intent firebaseIntent = new Intent(getContext(), FirebaseBActivity.class);
         startActivityForResult(call, firebaseIntent, "signInWithGoogleResult");
+    }
+
+    @PluginMethod()
+    public void signOut(PluginCall call) {
+        FirebaseAuth.getInstance().signOut();
+        call.resolve();
     }
 
     @ActivityCallback()
