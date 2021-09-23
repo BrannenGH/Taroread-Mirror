@@ -16,5 +16,5 @@ export interface TaroreadNativePlugin {
 export interface TaroreadUser { 
   displayName: string
   email: string
-  photoUrl: string
+  photoURL: string
 };

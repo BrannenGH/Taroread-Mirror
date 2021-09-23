@@ -34,7 +34,7 @@ public class TaroreadNativePlugin extends Plugin {
         JSObject response = new JSObject();
         response.put("displayName", displayName);
         response.put("email", email);
-        response.put("photoUrl", photoUrl);
+        response.put("photoURL", photoUrl);
         call.resolve(response);
     }
 }
