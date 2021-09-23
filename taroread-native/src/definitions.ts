@@ -12,4 +12,8 @@ export interface TaroreadNativePlugin {
 /**
  * Abstraction for a user of Taroread.
  */
-export interface TaroreadUser extends firebase.User { };
+export interface TaroreadUser { 
+  displayName: string
+  email: string
+  photoUrl: string
+};

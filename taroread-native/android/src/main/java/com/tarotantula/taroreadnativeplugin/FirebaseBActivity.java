@@ -63,7 +63,6 @@ public class FirebaseBActivity extends Activity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
-        finish();
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
@@ -80,6 +79,12 @@ public class FirebaseBActivity extends Activity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent();
+                            intent.putExtra("displayName", user.getDisplayName());
+                            intent.putExtra("email", user.getEmail());
+                            intent.putExtra("photoUrl", user.getPhotoUrl());
+                            setResult(RESULT_OK, intent);
+                            finish();
                         }
                     }
                 });
