@@ -15,7 +15,7 @@ import {
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 /**
  * The element for both the logged-in and logged-out account drawers.
