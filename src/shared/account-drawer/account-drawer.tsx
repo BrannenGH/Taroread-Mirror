@@ -67,7 +67,7 @@ const AccountDrawer = (props: any) => {
             <Typography>{user?.email ?? ""}</Typography>
           </Grid>
           <Grid>
-            <Button onClick={signOut}>Sign Out</Button>
+            <Button onClick={() => {signOut().then(() => setUser(null))}}>Sign Out</Button>
           </Grid>
         </Grid>
       );
