@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.getcapacitor.*;
 import com.getcapacitor.annotation.*;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 @CapacitorPlugin(name = "TaroreadNative")
 public class TaroreadNativePlugin extends Plugin {
@@ -22,6 +23,21 @@ public class TaroreadNativePlugin extends Plugin {
     public void signOut(PluginCall call) {
         FirebaseAuth.getInstance().signOut();
         call.resolve();
+    }
+
+    @PluginMethod()
+    public void getUser(PluginCall call) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        JSObject response = new JSObject();
+        if (user != null) {
+            response.put("displayName", user.getDisplayName());
+            response.put("email", user.getEmail());
+            response.put("photoURL", user.getPhotoUrl());
+            call.resolve(response);
+        } else {
+            call.resolve(null);
+        }
     }
 
     @ActivityCallback()

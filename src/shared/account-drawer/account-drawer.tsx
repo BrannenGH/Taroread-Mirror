@@ -28,9 +28,13 @@ const AccountDrawer = (props: any) => {
 
   useEffect(() => {
     getUser()?.then((res: TaroreadUser | null) => {
-      setUser(res);
+      if (user === undefined) {
+        setUser(null);
+      } else {
+        setUser(res);
+      }
     });
-  }, [user]);
+  }, []);
 
   const getBackButton = () => {
     return (
