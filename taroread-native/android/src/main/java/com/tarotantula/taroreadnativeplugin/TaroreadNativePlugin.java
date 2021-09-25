@@ -3,7 +3,6 @@ package com.tarotantula.taroreadnativeplugin;
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResult;
-import androidx.annotation.NonNull;
 
 import com.getcapacitor.*;
 import com.getcapacitor.annotation.*;
@@ -16,7 +15,7 @@ public class TaroreadNativePlugin extends Plugin {
     @PluginMethod()
     public void signInWithGoogle(PluginCall call) {
         try {
-            Intent firebaseIntent = new Intent(getContext(), FirebaseBActivity.class);
+            Intent firebaseIntent = new Intent(getContext(), GoogleSignInActivity.class);
             startActivityForResult(call, firebaseIntent, "signInWithGoogleResult");
         } catch (Exception e) {
             call.reject("Couldn't complete google sign-in intent", e);

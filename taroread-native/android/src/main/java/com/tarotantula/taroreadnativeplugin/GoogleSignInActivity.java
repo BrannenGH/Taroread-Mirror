@@ -24,7 +24,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.concurrent.Executor;
 
-public class FirebaseBActivity extends Activity {
+public class GoogleSignInActivity extends Activity {
     // TODO: Find where constant is declared in library?
     private static final int RC_SIGN_IN = 007;
     private FirebaseAuth mAuth;
