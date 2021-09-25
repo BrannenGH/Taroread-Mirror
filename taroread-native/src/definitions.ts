@@ -7,9 +7,14 @@ import firebase from 'firebase';
 export interface TaroreadNativePlugin {
   signInWithGoogle(): Promise<TaroreadUser | null>;
   getUser(): Promise<TaroreadUser | null>;
+  signOut(): Promise<void>;
 }
 
 /**
  * Abstraction for a user of Taroread.
  */
-export interface TaroreadUser extends firebase.User { };
+export interface TaroreadUser { 
+  displayName: string
+  email: string
+  photoURL: string
+};

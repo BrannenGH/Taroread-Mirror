@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.tarotantula.taroreadnativeplugin.FirebaseBActivity"
+            android:name="com.tarotantula.taroreadnativeplugin.GoogleSignInActivity"
             android:label="Taroread" />
     </application>
 

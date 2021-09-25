@@ -53,6 +53,7 @@ steps:
     apksignerKeystoreFile: taroread.keystore
     apksignerKeystorePassword: $(keystoreDebugPassword)
     apksignerKeystoreAlias: taroread
+    apksignerKeyPassword: $(keystoreDebugPassword)
 
 - task: AppCenterDistribute@3
   inputs:

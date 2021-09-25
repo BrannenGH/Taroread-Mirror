@@ -11,9 +11,11 @@ import {
 import {
   signInWithGoogle,
   getUser,
+  signOut,
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 /**
  * The element for both the logged-in and logged-out account drawers.
@@ -26,14 +28,40 @@ const AccountDrawer = (props: any) => {
 
   useEffect(() => {
     getUser()?.then((res: TaroreadUser | null) => {
-      setUser(res);
+      if (user === undefined) {
+        setUser(null);
+      } else {
+        setUser(res);
+      }
     });
-  }, [user]);
+  }, []);
+
+  const getBackButton = () => {
+    return (
+      <Grid container
+        direction="row"
+        justify="flex-start">
+        <Grid item>
+          <ArrowBackIcon
+            onClick={() => { props.setIsOpen(false) }} />
+        </Grid>
+        <Grid item>
+          <Typography>Back</Typography>
+        </Grid>
+      </Grid>
+    )
+  };
 
   const getInnerDrawer = () => {
     if (user === null) {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item
+            classes={{
+              root: "full-width"
+            }}>
+            {getBackButton()}
+          </Grid>
           <Grid item>
             <ButtonBase
               onClick={() =>
@@ -43,6 +71,7 @@ const AccountDrawer = (props: any) => {
               }
             >
               <img
+                className="google-signin-button"
                 src="signin/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png"
                 alt="Sign in with Google"
               />
@@ -53,6 +82,12 @@ const AccountDrawer = (props: any) => {
     } else {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item
+            classes={{
+              root: "full-width"
+            }}>
+            {getBackButton()}
+          </Grid>
           <Grid item>
             <Avatar
               alt={user?.displayName ?? "Anonymous User"}
@@ -66,7 +101,7 @@ const AccountDrawer = (props: any) => {
             <Typography>{user?.email ?? ""}</Typography>
           </Grid>
           <Grid>
-            <Button>Sign Out</Button>
+            <Button onClick={() => {signOut().then(() => setUser(null))}}>Sign Out</Button>
           </Grid>
         </Grid>
       );

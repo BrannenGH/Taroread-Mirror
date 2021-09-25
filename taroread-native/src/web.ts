@@ -5,6 +5,7 @@ import { TaroreadNativePlugin, TaroreadUser } from './definitions';
 import firebase from "firebase";
 
 export class TaroreadNativeWeb extends WebPlugin implements TaroreadNativePlugin {
+
     private _user: TaroreadUser | null = null;
 
     public getUser(): Promise<TaroreadUser | null> {
@@ -20,5 +21,10 @@ export class TaroreadNativeWeb extends WebPlugin implements TaroreadNativePlugin
                 this._user = result.user; 
                 return result.user;
             });
+    }
+
+    public signOut(): Promise<void> {
+        firebase.auth().signOut();
+        return Promise.resolve();
     }
 }

@@ -8,4 +8,8 @@ const getUser = () => {
     return TaroreadNative.getUser();
 }
 
-export { signInWithGoogle, getUser }
+const signOut = () => {
+    return TaroreadNative.signOut();
+}
+
+export { signInWithGoogle, getUser, signOut }
