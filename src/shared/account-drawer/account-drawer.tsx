@@ -39,7 +39,8 @@ const AccountDrawer = (props: any) => {
   const getBackButton = () => {
     return (
       <Grid container
-        direction="row">
+        direction="row"
+        justify="flex-start">
         <Grid item>
           <ArrowBackIcon
             onClick={() => { props.setIsOpen(false) }} />
@@ -55,6 +56,12 @@ const AccountDrawer = (props: any) => {
     if (user === null) {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item
+            classes={{
+              root: "full-width"
+            }}>
+            {getBackButton()}
+          </Grid>
           <Grid item>
             {getBackButton()}
           </Grid>
@@ -67,6 +74,7 @@ const AccountDrawer = (props: any) => {
               }
             >
               <img
+                className="google-signin-button"
                 src="signin/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png"
                 alt="Sign in with Google"
               />
@@ -77,6 +85,12 @@ const AccountDrawer = (props: any) => {
     } else {
       return (
         <Grid container direction="column" alignItems="center">
+          <Grid item
+            classes={{
+              root: "full-width"
+            }}>
+            {getBackButton()}
+          </Grid>
           <Grid item>
             {getBackButton()}
           </Grid>
