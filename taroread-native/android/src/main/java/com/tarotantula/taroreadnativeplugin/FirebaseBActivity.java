@@ -25,7 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.concurrent.Executor;
 
 public class FirebaseBActivity extends Activity {
-    // TODO: Find where constant is declared in library?t
+    // TODO: Find where constant is declared in library?
     private static final int RC_SIGN_IN = 007;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -41,15 +41,22 @@ public class FirebaseBActivity extends Activity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        signInWithGoogle();
+
+        FirebaseUser lastUser = mAuth.getCurrentUser();
+
+        // Only ask to sign in if not already signed in.
+        if (lastUser == null) {
+            signInWithGoogle();
+        } else {
+            Intent intent = buildIntentFromUser(lastUser);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 
     public void signInWithGoogle() {
-        account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account == null) {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        }
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -79,15 +86,26 @@ public class FirebaseBActivity extends Activity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent();
-                            intent.putExtra("displayName", user.getDisplayName());
-                            intent.putExtra("email", user.getEmail());
-                            intent.putExtra("photoUrl", user.getPhotoUrl());
+                            Intent intent = buildIntentFromUser(user);
                             setResult(RESULT_OK, intent);
                             finish();
                         }
                     }
                 });
+    }
+
+    /**
+     * Build an intent to pass user information to the caller.
+     *
+     * @param user Firebase user metadata to pass to caller.
+     * @return An intent with user metadata as extras.
+     */
+    private Intent buildIntentFromUser(FirebaseUser user) {
+        Intent intent = new Intent();
+        intent.putExtra("displayName", user.getDisplayName());
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("photoUrl", user.getPhotoUrl());
+        return intent;
     }
 
 }
