@@ -62,53 +62,27 @@ function App() {
     },
   });
 
-  const isNative = isPlatform("ios") || isPlatform("android");
-
-  if (isNative) {
-    return (
-      <IonApp>
-        <IonReactRouter>
-          <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-            <ThemeProvider theme={taroreadTheme}>
-              <IonRouterOutlet>
-                <Route path="/learn">
-                  <Learn allCards={allCards} />
-                </Route>
-                <Route path="/journal">
-                  <Journal allCards={allCards} />
-                </Route>
-                <Route>
-                  <PageContainer>
-                    <Home />
-                  </PageContainer>
-                </Route>
-              </IonRouterOutlet>
-            </ThemeProvider>
-          </FirebaseAppProvider>
-        </IonReactRouter>
-      </IonApp>
-    );
-  } else {
-    return (
-      <Router>
+  return (
+    <IonApp>
+      <IonReactRouter>
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
           <ThemeProvider theme={taroreadTheme}>
-            <Switch>
-              <Route path={`/learn`}>
+            <IonRouterOutlet>
+              <Route path="/learn">
                 <Learn allCards={allCards} />
               </Route>
-              <Route path={`/journal`}>
+              <Route path="/journal">
                 <Journal allCards={allCards} />
               </Route>
-              <Route path={`/`}>
+              <Route>
                 <Home />
               </Route>
-            </Switch>
+            </IonRouterOutlet>
           </ThemeProvider>
         </FirebaseAppProvider>
-      </Router>
-    );
-  }
+      </IonReactRouter>
+    </IonApp>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

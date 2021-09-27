@@ -84,6 +84,8 @@ const PageContainer = (props: any) => {
   );
 
     return (
+      <IonPage>
+        <IonContent>
       <Box mb={8}>
         <AccountDrawer
           isOpen={isOpen}
@@ -118,9 +120,11 @@ const PageContainer = (props: any) => {
           </Toolbar>
           <Button onClick={() => {setIsOpen(true);}}>Account</Button>
         </AppBar>
-        <Box m={2}>{props.children}</Box>
+          <Box m={2}>{props.children}</Box>
         <Hidden mdUp={true}>{getNavigation()}</Hidden>
       </Box>
+      </IonContent>
+      </IonPage>
     );
   };
 
