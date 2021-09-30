@@ -27,3 +27,8 @@ static-routes.json
 
 .gradle/
 *.keystore
+
+# VSCode IDE settings
+.vscode/**/*
+!.vscode/*.default
+!.vscode/extensions.json

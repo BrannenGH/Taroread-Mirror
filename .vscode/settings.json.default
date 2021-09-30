@@ -1,0 +1,4 @@
+{
+    "gradle.nestedProjects": ["./android/", "./taroread-native/android/"],
+    "gradle.autoDetect": "on"
+}

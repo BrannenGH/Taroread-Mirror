@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Bridge",
+            "type": "npm",
+            "script": "build",
+            "path": "./taroread-native/"
+        },
+        {
+            "label": "Build Web",
+            "type": "npm",
+            "script": "build"
+        },
+        {
+            "label": "Build",
+            "dependsOn": [
+                "Build Bridge",
+                "Build Web"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "Fetch Metadata",
+            "type": "npm",
+            "script": "fetch-metadata"
+        },
+        {
+            "label": "Generate Routes",
+            "type": "npm",
+            "script": "generate-routes"
+        },
+        {
+            "label": "Update Android Project",
+            "type": "npm",
+            "script": "generate-android"
+        },
+        {
+            "label": "Update and Build Web Project",
+            "dependsOn": [
+                "Fetch Metadata",
+                "Generate Routes",
+                "Build"
+            ]
+        },
+        {
+            "label": "Update and Build Android Project",
+            "dependsOn": [
+                "Update and Build Web Project",
+                "Build Android Project",
+                "Update Android Project"
+            ]
+        }
+    ]
+}
