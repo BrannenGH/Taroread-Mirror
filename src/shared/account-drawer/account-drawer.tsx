@@ -10,8 +10,8 @@ import {
 } from "@material-ui/core";
 import {
   signInWithGoogle,
-  getUser,
   signOut,
+  onAuthStateChanged
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
@@ -24,16 +24,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
  * @returns A react element
  */
 const AccountDrawer = (props: any) => {
-  const [user, setUser] = useState<TaroreadUser | null>();
+  const [user, setUser] = useState<TaroreadUser | null>(null);
 
   useEffect(() => {
-    getUser()?.then((res: TaroreadUser | null) => {
-      if (user === undefined) {
-        setUser(null);
-      } else {
-        setUser(res);
-      }
-    });
+    onAuthStateChanged((user) => {
+      // To simplfy, a falsy user is always null (i.e. not undefined, etc)
+      setUser(!!user ? user : null);
+    })
   }, []);
 
   const getBackButton = () => {
@@ -63,9 +60,6 @@ const AccountDrawer = (props: any) => {
             {getBackButton()}
           </Grid>
           <Grid item>
-            {getBackButton()}
-          </Grid>
-          <Grid item>
             <ButtonBase
               onClick={() =>
                 signInWithGoogle().then((user: TaroreadUser | null) => {
@@ -89,9 +83,6 @@ const AccountDrawer = (props: any) => {
             classes={{
               root: "full-width"
             }}>
-            {getBackButton()}
-          </Grid>
-          <Grid item>
             {getBackButton()}
           </Grid>
           <Grid item>

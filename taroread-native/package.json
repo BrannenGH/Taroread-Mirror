@@ -76,6 +76,6 @@
     }
   },
   "dependencies": {
-    "firebase": "^9.0.2"
+    "firebase": "^8.0.0"
   }
 }

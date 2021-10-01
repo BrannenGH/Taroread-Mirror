@@ -3,13 +3,24 @@ import { TaroreadNativePlugin, TaroreadUser } from './definitions';
 
 // @ts-ignore
 import firebase from "firebase";
+import "firebase/auth";
+import "firebase/database";
 
 export class TaroreadNativeWeb extends WebPlugin implements TaroreadNativePlugin {
 
-    private _user: TaroreadUser | null = null;
+    private get user() {
+        return firebase.auth().currentUser;
+    }
 
-    public getUser(): Promise<TaroreadUser | null> {
-        return Promise.resolve(this._user);
+    public initialize(config: any) {
+        firebase.initializeApp(config);
+        firebase.auth().onAuthStateChanged((user) => {
+            this.notifyListeners("onAuthStateChanged", user);
+        });
+    }
+
+    public refreshUser(): void {
+        return this.notifyListeners("onAuthStateChanged", this.user);
     }
 
     public signInWithGoogle(): Promise<TaroreadUser | null> {
@@ -18,7 +29,6 @@ export class TaroreadNativeWeb extends WebPlugin implements TaroreadNativePlugin
         return firebase.auth()
             .signInWithPopup(provider)
             .then((result: any) => {
-                this._user = result.user; 
                 return result.user;
             });
     }
@@ -26,5 +36,21 @@ export class TaroreadNativeWeb extends WebPlugin implements TaroreadNativePlugin
     public signOut(): Promise<void> {
         firebase.auth().signOut();
         return Promise.resolve();
+    }
+
+    getReadings(): Promise<any> {
+        return firebase.database().ref(`journals/${this.user?.uid}`).get();
+    }
+    getReading(id: number): Promise<any> {
+        return firebase.database().ref(`journals/${this.user?.uid}/${id}`).get();
+    }
+    deleteReading(id: number): Promise<any> {
+        return firebase.database().ref(`journals/${this.user?.uid}/${id}`).remove();
+    }
+    updateReading(id: number, reading: any): Promise<any> {
+        return firebase.database().ref(`journals/${this.user?.uid}/${id}`).update(reading);
+    }
+    addReading(reading: any): Promise<any> {
+        return Promise.resolve(firebase.database().ref(`journals/${this.user?.uid}`).push(reading));
     }
 }

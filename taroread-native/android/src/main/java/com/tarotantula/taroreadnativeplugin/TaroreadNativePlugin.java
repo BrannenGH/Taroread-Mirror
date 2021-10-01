@@ -3,14 +3,31 @@ package com.tarotantula.taroreadnativeplugin;
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
 
 import com.getcapacitor.*;
 import com.getcapacitor.annotation.*;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.*;
+import com.google.firebase.auth.FirebaseAuth.*;
 
 @CapacitorPlugin(name = "TaroreadNative")
 public class TaroreadNativePlugin extends Plugin {
+
+    @PluginMethod()
+    public void initialize(PluginCall call) {
+        try {
+            FirebaseAuth.getInstance().addAuthStateListener(new AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    notifyListeners("onAuthStateChanged", buildJsonFromUser(firebaseAuth.getCurrentUser()));
+                }
+            });
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Couldn't initialize", e);
+        }
+    }
 
     @PluginMethod()
     public void signInWithGoogle(PluginCall call) {
@@ -33,19 +50,10 @@ public class TaroreadNativePlugin extends Plugin {
     }
 
     @PluginMethod()
-    public void getUser(PluginCall call) {
+    public void refreshUser(PluginCall call) {
         try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-            JSObject response = new JSObject();
-            if (user != null) {
-                response.put("displayName", user.getDisplayName());
-                response.put("email", user.getEmail());
-                response.put("photoURL", user.getPhotoUrl());
-                call.resolve(response);
-            } else {
-                call.resolve(null);
-            }
+            notifyListeners("onAuthStateChanged", buildJsonFromUser(FirebaseAuth.getInstance().getCurrentUser()));
+            call.resolve();
         } catch (Exception e) {
             call.reject("Couldn't get the current user", e);
         }
@@ -68,4 +76,27 @@ public class TaroreadNativePlugin extends Plugin {
             call.reject("Couldn't handle result of sign-in intent", e);
         }
     }
+
+    private JSObject buildJsonFromUser(FirebaseUser user) {
+        if (user != null) {
+            JSObject response = new JSObject();
+            response.put("displayName", user.getDisplayName());
+            response.put("email", user.getEmail());
+            response.put("photoURL", user.getPhotoUrl());
+            return response;
+        } else {
+            return null;
+        }
+    }
+
+    /*
+
+      onAuthStateChanged(func: (user: TaroreadUser) => void): void;
+  getReadings(): Promise<any>;
+  getReading(id: number): Promise<any>;
+  deleteReading(id: number): Promise<any>;
+  updateReading(id: number, reading: any): Promise<any>;
+  addReading(reading: any): Promise<any>;
+}
+     */
 }

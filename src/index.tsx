@@ -33,13 +33,12 @@ import { IonApp, IonTabs, IonRouterOutlet, isPlatform } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Home } from "./home/home";
 import { createMuiTheme } from "@material-ui/core/styles";
-import firebase from "firebase/app";
 import { Journal } from "./journal/journal";
 import { TarotCardMetadata } from "./shared/tarot-cards/tarot-card-metadata";
 import { getTarotMetadata } from "./shared/tarot-cards/tarot-card-service";
 import { PageContainer } from "./shared/page-container/page-container";
-import { FirebaseAppProvider } from "reactfire";
 import firebaseConfig from "./firebase-config.json";
+import { TaroreadNative } from "taroread-native";
 
 function App() {
   // Bootstrap the application by pulling all the TaroCardMetadata.
@@ -48,6 +47,9 @@ function App() {
   useEffect(() => {
     // Load TaroCardMetadata on load.
     getTarotMetadata().then((res) => setAllCards(res));
+
+    // Initialize native bridge 
+    TaroreadNative.initialize(firebaseConfig);
   }, []);
 
   // Set up Taroread theme.
@@ -65,21 +67,19 @@ function App() {
   return (
     <IonApp>
       <IonReactRouter>
-        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          <ThemeProvider theme={taroreadTheme}>
-            <IonRouterOutlet>
-              <Route path="/learn">
-                <Learn allCards={allCards} />
-              </Route>
-              <Route path="/journal">
-                <Journal allCards={allCards} />
-              </Route>
-              <Route>
-                <Home />
-              </Route>
-            </IonRouterOutlet>
-          </ThemeProvider>
-        </FirebaseAppProvider>
+        <ThemeProvider theme={taroreadTheme}>
+          <IonRouterOutlet>
+            <Route path="/learn">
+              <Learn allCards={allCards} />
+            </Route>
+            <Route path="/journal">
+              <Journal allCards={allCards} />
+            </Route>
+            <Route>
+              <Home />
+            </Route>
+          </IonRouterOutlet>
+        </ThemeProvider>
       </IonReactRouter>
     </IonApp>
   );
