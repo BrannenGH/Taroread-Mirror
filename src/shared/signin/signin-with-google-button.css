@@ -1,0 +1,6 @@
+.google-signin-button {
+  max-width: 100%;
+  max-height: 5rem;
+  /* When used in a grid, by default center itself */
+  align-self: center;
+}

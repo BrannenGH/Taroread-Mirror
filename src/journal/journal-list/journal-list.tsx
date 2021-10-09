@@ -1,79 +1,134 @@
 import React, { useEffect, useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Card,
-  Typography,
-  CardContent,
-  Container,
-  Grid,
-  Box,
-  CardMedia,
-  CardActionArea,
-  Paper,
-  Button,
-} from "@material-ui/core";
+import { Typography, Grid, Paper, Button, Box } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-  useHistory,
-} from "react-router-dom";
-import { TarotCard } from "../../shared/tarot-cards/tarot-card";
-import { getTarotMetadata } from "../../shared/tarot-cards/tarot-card-service";
-import { TarotCardMetadata } from "../../shared/tarot-cards/tarot-card-metadata";
+import { useHistory } from "react-router-dom";
 import { JournalListItem } from "./journal-list-item";
-import {
-  JournalEntry,
-  constructJournalEntry,
-} from "../../shared/tarot-journal/journal-entry";
-import firebase from "firebase";
-import { useUser, useDatabaseList } from "reactfire";
 import { ContentContainer } from "../../shared/content-container/content-container";
+import { TaroreadUser, TaroreadJournal } from "taroread-native";
+import {
+  getJournals,
+  addJournal,
+  deleteJournal,
+} from "../../shared/journal-service/journal-service";
+import { SignInWithGoogleButton } from "../../shared/signin/signin-with-google-button";
+import { useUserState } from "../../shared/use-user-state/use-user-state";
+import "./journal-list.css";
 
 const JournalList = (props: any) => {
-  const { data: currentUser } = useUser();
   const history = useHistory();
+  const [journals, setJournals] = useState<TaroreadJournal[]>([]);
+  const [user, setUser] = useUserState();
 
-  return (
-    <ContentContainer
-      title="Choose Reading to View"
-      menuItems={
-        <Button
-          onClick={() =>
-            props.onModify([...props.allJournals, constructJournalEntry()])
-          }
-        >
-          <Typography className="icon-text" align="center">
-            Add new reading
-            <Add />
-          </Typography>
-        </Button>
-      }
-    >
-      {props.allJournals.map((journal: JournalEntry, index: number) => (
+  useEffect(() => {
+    if (!!user) {
+      fetchJournals(0);
+    }
+  }, [user]);
+
+  const fetchJournals = (page: number) => {
+    getJournals(page).then((res) => setJournals(res));
+  };
+
+  const navigateToJournal = (uid: string, id: string) => {
+    history.push(`/journal/edit?user=${uid}&id=${id}`);
+  };
+
+  const renderJournalList = (journals: TaroreadJournal[] | null) => {
+    if (!journals || journals.length < 1) {
+      return <Typography>Loading</Typography>;
+    } else {
+      return journals?.map((journal: TaroreadJournal) => (
         <JournalListItem
           allCards={props.allCards}
           journal={journal}
-          onClick={() =>
-            history.push(
-              `/journal/edit?user=${
-                (currentUser as firebase.User)?.uid
-              }&id=${index}`
-            )
-          }
+          onClick={() => {
+            if (!!user?.uid && !!journal.id) {
+              // @ts-ignore Types checked at runtime in if statement.
+              navigateToJournal(user.uid, journal.id);
+            } else {
+              throw new Error(
+                `Could not navigate to journal ${journal.id} for user ${user?.uid}.`
+              );
+            }
+          }}
           onDelete={() => {
-            props.allJournals.splice(index, 1);
-            props.onModify(props.allJournals);
+            if (!!journal?.id) {
+              // @ts-ignore Journal ID is for sure defined
+              deleteJournal(journal.id);
+              fetchJournals(0);
+            }
           }}
         />
-      ))}
-    </ContentContainer>
-  );
+      ));
+    }
+  };
+
+  if (!!user) {
+    // If logged in
+    return (
+      <ContentContainer
+        title="Choose Reading to View"
+        menuItems={
+          <Button
+            onClick={() =>
+              addJournal().then((id) => {
+                if (!!user?.uid && !!id) {
+                  // @ts-ignore Types checked at runtime in if statement.
+                  navigateToJournal(user.uid, id);
+                }
+              })
+            }
+          >
+            <Typography className="icon-text" align="center">
+              Add new reading
+              <Add />
+            </Typography>
+          </Button>
+        }
+      >
+        {renderJournalList(journals)}
+      </ContentContainer>
+    );
+  } else {
+    // If logged out
+    return (
+      <ContentContainer title="Choose Reading to View">
+        <Paper>
+          <Box p={3}>
+            <Grid
+              container
+              direction="column"
+              justify="space-between"
+              alignContent="center"
+              classes={{
+                root: "logged-out-grid",
+              }}
+            >
+              <Grid item>
+                <Typography align="center" variant="h4">
+                  You're logged out!
+                </Typography>
+                <Typography align="center" variant="h5">
+                  To journal your readings, you need to login or create an
+                  account.
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography align="center" variant="h4">
+                  Please, sign in below and get started! 😄
+                </Typography>
+              </Grid>
+              <Grid item>
+                <SignInWithGoogleButton
+                  onLogin={(user: TaroreadUser | null) => setUser(user)}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+      </ContentContainer>
+    );
+  }
 };
 
 export { JournalList };

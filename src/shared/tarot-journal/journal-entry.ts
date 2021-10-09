@@ -1,6 +1,6 @@
 interface JournalEntry {
   title: string;
-  date: Date;
+  date: string;
   cards: number[];
   description: string;
 }
@@ -8,7 +8,7 @@ interface JournalEntry {
 const constructJournalEntry = () => {
   return {
     title: "",
-    date: Date(),
+    date: Date().toString(),
     cards: [],
   };
 };

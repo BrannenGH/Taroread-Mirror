@@ -1,27 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  AppBar,
-  Toolbar,
   Card,
   Typography,
   CardContent,
-  Container,
   Grid,
-  Box,
-  CardMedia,
-  CardActionArea,
   Button,
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
 import { TarotCard } from "../../shared/tarot-cards/tarot-card";
 import { JournalEntry } from "../../shared/tarot-journal/journal-entry";
 import { TarotCardMetadata } from "../../shared/tarot-cards/tarot-card-metadata";

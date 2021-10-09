@@ -1,14 +1,11 @@
 package com.tarotantula.taroreadnativeplugin;
 
 import android.app.Activity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,10 +18,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
 import java.util.concurrent.Executor;
 
 public class GoogleSignInActivity extends Activity {
+
     // TODO: Find where constant is declared in library?
     private static final int RC_SIGN_IN = 007;
     private FirebaseAuth mAuth;
@@ -36,9 +33,9 @@ public class GoogleSignInActivity extends Activity {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("304549500804-6cptt1agqigvpdet8llbcbefmd0mrv7i.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
+            .requestIdToken("304549500804-6cptt1agqigvpdet8llbcbefmd0mrv7i.apps.googleusercontent.com")
+            .requestEmail()
+            .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
@@ -79,8 +76,11 @@ public class GoogleSignInActivity extends Activity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
+        mAuth
+            .signInWithCredential(credential)
+            .addOnCompleteListener(
+                this,
+                new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -91,7 +91,8 @@ public class GoogleSignInActivity extends Activity {
                             finish();
                         }
                     }
-                });
+                }
+            );
     }
 
     /**
@@ -107,6 +108,4 @@ public class GoogleSignInActivity extends Activity {
         intent.putExtra("photoUrl", user.getPhotoUrl());
         return intent;
     }
-
 }
-

@@ -6,16 +6,16 @@ import {
   Typography,
   Grid,
   Avatar,
-  ButtonBase,
 } from "@material-ui/core";
 import {
-  signInWithGoogle,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { PluginListenerHandle } from "@capacitor/core";
+import { SignInWithGoogleButton } from "../signin/signin-with-google-button";
 
 /**
  * The element for both the logged-in and logged-out account drawers.
@@ -25,64 +25,63 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
  */
 const AccountDrawer = (props: any) => {
   const [user, setUser] = useState<TaroreadUser | null>(null);
+  const [handle, setHandle] = useState<PluginListenerHandle | null>(null);
 
   useEffect(() => {
-    onAuthStateChanged((user) => {
-      // To simplfy, a falsy user is always null (i.e. not undefined, etc)
-      setUser(!!user ? user : null);
-    })
+    onAuthStateChanged((user) => setUser(user)).then((handle) =>
+      setHandle(handle)
+    );
+
+    return () => {
+      handle?.remove();
+    };
   }, []);
 
   const getBackButton = () => {
     return (
-      <Grid container
-        direction="row"
-        justify="flex-start">
+      <Grid container direction="row" justify="flex-start">
         <Grid item>
           <ArrowBackIcon
-            onClick={() => { props.setIsOpen(false) }} />
+            onClick={() => {
+              props.setIsOpen(false);
+            }}
+          />
         </Grid>
         <Grid item>
           <Typography>Back</Typography>
         </Grid>
       </Grid>
-    )
+    );
   };
 
   const getInnerDrawer = () => {
     if (user === null) {
       return (
         <Grid container direction="column" alignItems="center">
-          <Grid item
+          <Grid
+            item
             classes={{
-              root: "full-width"
-            }}>
+              root: "full-width",
+            }}
+          >
             {getBackButton()}
           </Grid>
           <Grid item>
-            <ButtonBase
-              onClick={() =>
-                signInWithGoogle().then((user: TaroreadUser | null) => {
-                  setUser(user);
-                })
-              }
-            >
-              <img
-                className="google-signin-button"
-                src="signin/google_signin_buttons/web/2x/btn_google_signin_light_normal_web@2x.png"
-                alt="Sign in with Google"
-              />
-            </ButtonBase>
+            <SignInWithGoogleButton
+              onLogin={(user: TaroreadUser | null) => setUser(user)}
+            />
           </Grid>
         </Grid>
       );
     } else {
       return (
         <Grid container direction="column" alignItems="center">
-          <Grid item
+          <Grid
+            item
             classes={{
-              root: "full-width"
-            }}>
+              root: "full-width",
+            }}
+          >
             {getBackButton()}
           </Grid>
           <Grid item>
@@ -98,7 +97,13 @@ const AccountDrawer = (props: any) => {
             <Typography>{user?.email ?? ""}</Typography>
           </Grid>
           <Grid>
-            <Button onClick={() => {signOut().then(() => setUser(null))}}>Sign Out</Button>
+            <Button
+              onClick={() => {
+                signOut().then(() => setUser(null));
+              }}
+            >
+              Sign Out
+            </Button>
           </Grid>
         </Grid>
       );
