@@ -16,6 +16,7 @@ import "./account-drawer.css";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { PluginListenerHandle } from "@capacitor/core";
 import { SignInWithGoogleButton } from "../signin/signin-with-google-button";
+import { useUserState } from "../use-user-state/use-user-state";
 
 /**
  * The element for both the logged-in and logged-out account drawers.
@@ -24,18 +25,7 @@ import { SignInWithGoogleButton } from "../signin/signin-with-google-button";
  * @returns A react element
  */
 const AccountDrawer = (props: any) => {
-  const [user, setUser] = useState<TaroreadUser | null>(null);
-  const [handle, setHandle] = useState<PluginListenerHandle | null>(null);
-
-  useEffect(() => {
-    onAuthStateChanged((user) => setUser(user)).then((handle) =>
-      setHandle(handle)
-    );
-
-    return () => {
-      handle?.remove();
-    };
-  }, []);
+  const [user, setUser] = useUserState(); 
 
   const getBackButton = () => {
     return (

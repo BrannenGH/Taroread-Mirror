@@ -9,3 +9,12 @@
   margin: 1rem;
   list-style: none;
 }
+
+.avatar-container {
+  /* Important to override MUI defaults */
+  margin-left: auto !important;
+}
+
+.taroread-logo {
+    max-height: 2rem;
+}

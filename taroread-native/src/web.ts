@@ -19,7 +19,11 @@ export class TaroreadNativeWeb
   }
 
   public initialize(config: any) {
-    firebase.initializeApp(config);
+    // Only initialize once for our use case.
+    if (firebase.apps.length < 1) {
+      firebase.initializeApp(config);
+    }
+
     firebase.auth().onAuthStateChanged(user => {
       this.notifyListeners('onAuthStateChanged', user);
     });
