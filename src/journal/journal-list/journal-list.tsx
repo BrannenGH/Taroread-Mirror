@@ -5,19 +5,24 @@ import { useHistory } from "react-router-dom";
 import { JournalListItem } from "./journal-list-item";
 import { ContentContainer } from "../../shared/content-container/content-container";
 import { TaroreadUser, TaroreadJournal } from "taroread-native";
-import {
-  getJournals,
-  addJournal,
-  deleteJournal,
-} from "../../shared/journal-service/journal-service";
 import { SignInWithGoogleButton } from "../../shared/signin/signin-with-google-button";
-import { useUserState } from "../../shared/use-user-state/use-user-state";
 import "./journal-list.css";
+import {
+  useUser,
+  useRefreshUser,
+} from "../../taroread-native/hooks/authentication-hooks";
+import {
+  useGetJournals,
+  useAddJournal,
+} from "../../taroread-native/hooks/journal-hooks";
 
 const JournalList = (props: any) => {
   const history = useHistory();
   const [journals, setJournals] = useState<TaroreadJournal[]>([]);
-  const [user, setUser] = useUserState();
+  const user = useUser();
+  const getJournals = useGetJournals();
+  const refreshUser = useRefreshUser();
+  const addJournal = useAddJournal();
 
   useEffect(() => {
     if (!!user) {
@@ -120,7 +125,7 @@ const JournalList = (props: any) => {
               </Grid>
               <Grid item>
                 <SignInWithGoogleButton
-                  onLogin={(user: TaroreadUser | null) => setUser(user)}
+                  onLogin={(user: TaroreadUser | null) => refreshUser()}
                 />
               </Grid>
             </Grid>

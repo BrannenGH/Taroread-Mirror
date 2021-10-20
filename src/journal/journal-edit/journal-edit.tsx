@@ -14,17 +14,23 @@ import { Formik, FieldArray } from "formik";
 import { Add } from "@material-ui/icons";
 import { ContentContainer } from "../../shared/content-container/content-container";
 import {
-  getJournal,
-  updateJournal,
-} from "../../shared/journal-service/journal-service";
-import { useUserState } from "../../shared/use-user-state/use-user-state";
+  useUser,
+  useRefreshUser,
+} from "../../taroread-native/hooks/authentication-hooks";
+import {
+  useGetJournal,
+  useUpdateJournal,
+} from "../../taroread-native/hooks/journal-hooks";
 
 const JournalEdit = (props: any) => {
   let query = new URLSearchParams(useLocation().search);
   let id = String(decodeURIComponent(query.get("id") ?? ""));
   const [journal, setJournal] = useState<any>(null);
   const history = useHistory();
-  const [user, setUser] = useUserState();
+  const user = useUser();
+  const getJournal = useGetJournal();
+  const refreshUser = useRefreshUser();
+  const updateJournal = useUpdateJournal();
 
   useEffect(() => {
     getJournal(id).then((res: any) => setJournal(res));

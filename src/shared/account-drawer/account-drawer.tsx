@@ -7,16 +7,15 @@ import {
   Grid,
   Avatar,
 } from "@material-ui/core";
-import {
-  signOut,
-  onAuthStateChanged,
-} from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import "./account-drawer.css";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { PluginListenerHandle } from "@capacitor/core";
 import { SignInWithGoogleButton } from "../signin/signin-with-google-button";
-import { useUserState } from "../use-user-state/use-user-state";
+import {
+  useUser,
+  useSignOut,
+  useRefreshUser,
+} from "../../taroread-native/hooks/authentication-hooks";
 
 /**
  * The element for both the logged-in and logged-out account drawers.
@@ -25,11 +24,13 @@ import { useUserState } from "../use-user-state/use-user-state";
  * @returns A react element
  */
 const AccountDrawer = (props: any) => {
-  const [user, setUser] = useUserState(); 
+  const user = useUser();
+  const signOut = useSignOut();
+  const refreshUser = useRefreshUser();
 
   const getBackButton = () => {
     return (
-      <Grid container direction="row" justify="flex-start">
+      <Grid container direction="row" justifyContent="flex-start">
         <Grid item>
           <ArrowBackIcon
             onClick={() => {
@@ -44,7 +45,7 @@ const AccountDrawer = (props: any) => {
     );
   };
 
-  const getInnerDrawer = () => {
+  const getInnerDrawer: () => JSX.Element = () => {
     if (user === null) {
       return (
         <Grid container direction="column" alignItems="center">
@@ -58,7 +59,7 @@ const AccountDrawer = (props: any) => {
           </Grid>
           <Grid item>
             <SignInWithGoogleButton
-              onLogin={(user: TaroreadUser | null) => setUser(user)}
+              onLogin={(user: TaroreadUser | null) => refreshUser()}
             />
           </Grid>
         </Grid>
@@ -89,7 +90,7 @@ const AccountDrawer = (props: any) => {
           <Grid>
             <Button
               onClick={() => {
-                signOut().then(() => setUser(null));
+                signOut().then(() => refreshUser());
               }}
             >
               Sign Out

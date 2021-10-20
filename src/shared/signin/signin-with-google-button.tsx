@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { ButtonBase } from "@material-ui/core";
-import { signInWithGoogle } from "../authentication-service/authentication-service";
 import { TaroreadUser } from "taroread-native";
 import PropTypes from "prop-types";
 import "./signin-with-google-button.css";
+import {
+  useUser,
+  useSignOut,
+  useRefreshUser,
+  useSignInWithGoogle,
+} from "../../taroread-native/hooks/authentication-hooks";
 
 const SignInWithGoogleButton = (props: any) => {
+  const signInWithGoogle = useSignInWithGoogle();
+
   return (
     <ButtonBase
       onClick={() =>

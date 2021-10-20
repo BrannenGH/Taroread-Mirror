@@ -10,11 +10,11 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useUserState } from "../use-user-state/use-user-state";
 import "./taroread-bar.css";
+import { useUser } from "../../taroread-native/hooks/authentication-hooks";
 
 const TaroreadBar = (props: any) => {
-  const [user, setUser] = useUserState();
+  const user = useUser();
 
   return (
     <AppBar position="sticky">
@@ -23,30 +23,35 @@ const TaroreadBar = (props: any) => {
           <Grid item>
             <Link to="/">
               <Grid container direction="row" alignItems="center">
-                <img src="/logowithtext.svg" className="taroread-logo" alt="Taroread logo"></img>
+                <img
+                  src="/logowithtext.svg"
+                  className="taroread-logo"
+                  alt="Taroread logo"
+                ></img>
               </Grid>
             </Link>
           </Grid>
           <Hidden smDown={true}>
             <Grid item>
-                <nav>
-                  <ol className="navigation">
-                    <li>
-                      <Link to="/learn">
-                        <Typography>Learn</Typography>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/journal">
-                        <Typography>Journal</Typography>
-                      </Link>
-                    </li>
-                  </ol>
-                </nav>
+              <nav>
+                <ol className="navigation">
+                  <li>
+                    <Link to="/learn">
+                      <Typography>Learn</Typography>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/journal">
+                      <Typography>Journal</Typography>
+                    </Link>
+                  </li>
+                </ol>
+              </nav>
             </Grid>
           </Hidden>
           <Grid item className="avatar-container">
             <Avatar
+              aria-label={user?.displayName ?? "Logged out user"}
               alt={user?.displayName ?? "Logged out user"}
               src={user?.photoURL ?? ""}
               onClick={() => props.setAccountDrawerVisible(true)}
